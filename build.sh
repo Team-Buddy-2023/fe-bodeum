@@ -3,5 +3,5 @@
 #!/bin/sh
 cd ../
 mkdir output
-cp -R ./[fe-bodeum]/* ./output
-cp -R ./output ./[fe-bodeum]/
+cp -R ./fe-bodeum/* ./output
+cp -R ./output ./fe-bodeum/
