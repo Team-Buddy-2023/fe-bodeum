@@ -46,60 +46,61 @@ function chat() {
       {number === 3 ? null : (
         <div className={styles.black}>
           <div className={styles.character} />
-
-          <div className={styles.box}>
-            {number === 0 ? (
-              <>
-                <div className={styles.message}>
-                  <p>마음에 드는 답변을 저장할 수 있어요</p>
-                </div>
-                <div className={styles.spring}>
-                  <img src="/spring.svg" alt="spring" />
-                </div>
-                <div className={styles.scrap}>
-                  <img src="/scrap.svg" alt="scrap" />
-                </div>
-              </>
-            ) : null}
-            {number === 1 ? (
-              <>
-                <div className={styles.top}>
-                  <img src="/arrow.svg" alt="arrow" />
-                  <button type="button">펼치기</button>
-                </div>
-                <div className={styles.spring2}>
-                  <img src="/spring2.svg" alt="spring2" />
-                </div>
-                <div className={styles.message2}>
-                  <p>이전 대화 내용을 볼 수 있어요</p>
-                </div>
-              </>
-            ) : null}
-
-            <div className={styles.text} />
-            {number === 2 ? (
-              <>
-                <div className={styles.top} />
-                <div className={styles.input}>
-                  <input
-                    type="text"
-                    value={text}
-                    onChange={onChange}
-                    placeholder="내용을 입력해주세요"
-                  />
-                  {/* <input name="text" value={text} onChange={onInputChange} /> */}
-                  <div>
-                    <img className={styles.send} src="/send.svg" alt="send" />
+          <div className={styles.container}>
+            <div className={styles.box}>
+              {number === 0 ? (
+                <>
+                  <div className={styles.message}>
+                    <p>마음에 드는 답변을 저장할 수 있어요</p>
                   </div>
-                </div>
-                <div className={styles.spring3}>
-                  <img src="/spring3.svg" alt="spring3" />
-                </div>
-                <div className={styles.message3}>
-                  <p>위아래로 스크롤 해 내용을 볼 수 있어요</p>
-                </div>
-              </>
-            ) : null}
+                  <div className={styles.spring}>
+                    <img src="/spring.svg" alt="spring" />
+                  </div>
+                  <div className={styles.scrap}>
+                    <img src="/scrap.svg" alt="scrap" />
+                  </div>
+                </>
+              ) : null}
+              {number === 1 ? (
+                <>
+                  <div className={styles.top}>
+                    <img src="/arrow.svg" alt="arrow" />
+                    <button type="button">펼치기</button>
+                  </div>
+                  <div className={styles.spring2}>
+                    <img src="/spring2.svg" alt="spring2" />
+                  </div>
+                  <div className={styles.message2}>
+                    <p>이전 대화 내용을 볼 수 있어요</p>
+                  </div>
+                </>
+              ) : null}
+
+              <div className={styles.text} />
+              {number === 2 ? (
+                <>
+                  <div className={styles.top} />
+                  <div className={styles.input}>
+                    <input
+                      type="text"
+                      value={text}
+                      onChange={onChange}
+                      placeholder="내용을 입력해주세요"
+                    />
+                    {/* <input name="text" value={text} onChange={onInputChange} /> */}
+                    <div>
+                      <img className={styles.send} src="/send.svg" alt="send" />
+                    </div>
+                  </div>
+                  <div className={styles.spring3}>
+                    <img src="/spring3.svg" alt="spring3" />
+                  </div>
+                  <div className={styles.message3}>
+                    <p>위아래로 스크롤 해 내용을 볼 수 있어요</p>
+                  </div>
+                </>
+              ) : null}
+            </div>
           </div>
         </div>
       )}

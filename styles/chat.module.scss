@@ -1,4 +1,4 @@
-.black{
+.black {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,17 +7,17 @@
   width: 100%;
   height: 100vh;
   flex-shrink: 0;
-  background: rgba(0, 0, 0, 0.50);
+  background: rgba(0, 0, 0, 0.5);
   margin: 0;
   padding: 0;
   overflow: hidden;
-  .box{
+  .box {
     position: absolute;
-    top:520px;
+    bottom: 20px;
     background: none;
   }
 }
-.background{
+.background {
   width: 100%;
   height: 100vh;
   margin: 0;
@@ -26,170 +26,172 @@
   background-image: url(../public/background.png);
   background-size: cover;
 }
-.backdrop{
+.backdrop {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   height: 100vh;
-  background-color: rgba(255,255,192,0.1);
+  background-color: rgba(255, 255, 192, 0.1);
   backdrop-filter: blur(10px);
 }
-.character{
+.character {
+  position: absolute;
   z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 550px;
   height: 550px;
-  margin-top: 70px;
 }
-.container{
+.container {
   position: absolute;
-  top:520px;
+  bottom: 20px;
   width: 1260px;
-  height: 410px;
+  height: 41vh;
   flex-shrink: 0;
   border-radius: 40px;
-  border: 2px solid #FFF;
+  border: 2px solid #fff;
   box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
-  @media (max-width:1260px) {
+  @media (max-width: 1260px) {
     width: 100vw;
   }
 }
-.container2{
+.container2 {
+  position: absolute;
+  bottom: 20px;
   width: 1260px;
-  height: 900px;
+  height: 91vh;
   flex-shrink: 0;
   border-radius: 40px;
-  border: 2px solid #FFF;
+  border: 2px solid #fff;
   box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.15);
-  @media (max-width:1260px) {
+  @media (max-width: 1260px) {
     width: 100vw;
   }
 }
-.box2{
-  position:relative;
+.box2 {
+  position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   width: 1260px;
-  height: 900px;
+  height: 41vh;
   border-radius: 40px;
-  background: rgba(255, 255, 255, 0.30);
-  box-shadow: 5px 5px 20px 0px rgba(124, 137, 109, 0.20);
-  input{
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 5px 5px 20px 0px rgba(124, 137, 109, 0.2);
+  input {
     width: 1090px;
     height: 80px;
     padding: 25px 30px;
     border-radius: 30px;
-    border: 1px solid #FFF;
-    background: #DAE4AF;
+    border: 1px solid #fff;
+    background: #dae4af;
     font-size: 20px;
   }
-  input::placeholder{
-    color: #FFF;
+  input::placeholder {
+    color: #fff;
   }
-  .input{
+  .input {
     position: fixed;
     bottom: 120px;
-    .send{
-      position:absolute;
-      top:10px;
+    .send {
+      position: absolute;
+      top: 10px;
       right: 10px;
       cursor: pointer;
     }
   }
-  .top{
+  .top {
     position: absolute;
-    top:20px;
+    top: 20px;
     right: 60px;
     width: 90%;
     height: 30px;
     display: flex;
     justify-content: end;
     cursor: pointer;
-    button{
-      color: #FFF;
+    button {
+      color: #fff;
       font-size: 20px;
       font-weight: 700;
     }
-    img{
+    img {
       padding: 7px 0 7px 7px;
     }
   }
 }
-.box{
-  position:relative;
+.box {
+  position: relative;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   width: 1260px;
-  height: 410px;
+  height: 41vh;
   border-radius: 40px;
-  background: rgba(255, 255, 255, 0.30);
-  box-shadow: 5px 5px 20px 0px rgba(124, 137, 109, 0.20);
-  
-  input{
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 5px 5px 20px 0px rgba(124, 137, 109, 0.2);
+
+  input {
     width: 1090px;
     height: 80px;
     padding: 25px 30px;
     border-radius: 30px;
-    border: 1px solid #FFF;
-    background: #DAE4AF;
+    border: 1px solid #fff;
+    background: #dae4af;
     font-size: 20px;
   }
-  input::placeholder{
-    color: #FFF;
+  input::placeholder {
+    color: #fff;
   }
-  .message{
+  .message {
     position: absolute;
-    top:-225px;
+    top: -225px;
     left: 80px;
     color: white;
     font-size: 20px;
     font-weight: 700;
   }
-  .scrap{
+  .scrap {
     position: absolute;
-    top:-20px;
-    left:50px;
+    top: -20px;
+    left: 50px;
   }
-  .spring{
+  .spring {
     position: absolute;
-    top:-190px;
-    left:-10px;
+    top: -190px;
+    left: -10px;
   }
-  .spring2{
+  .spring2 {
     position: absolute;
-    top:-150px;
-    right:80px;
+    top: -150px;
+    right: 80px;
   }
-  .message2{
+  .message2 {
     position: absolute;
-    top:-170px;
+    top: -170px;
     right: -200px;
     color: white;
     font-size: 20px;
     font-weight: 700;
   }
-  .spring3{
+  .spring3 {
     position: absolute;
-    bottom:-20px;
-    right:450px;
+    bottom: -20px;
+    right: 450px;
   }
-  .message3{
+  .message3 {
     position: absolute;
-    bottom:-50px;
-    right:430px;
+    bottom: -50px;
+    right: 430px;
     color: white;
     font-size: 20px;
     font-weight: 700;
   }
-  .name{
+  .name {
     display: flex;
     width: 125px;
     height: 55px;
@@ -198,43 +200,43 @@
     align-items: center;
     flex-shrink: 0;
     border-radius: 50px;
-    background: #FFF;
+    background: #fff;
     position: absolute;
-    top:-20px;
-    left:150px;
+    top: -20px;
+    left: 150px;
   }
-  .top{
+  .top {
     position: absolute;
-    top:20px;
+    top: 20px;
     right: 60px;
     width: 90%;
     height: 30px;
     display: flex;
     justify-content: end;
     cursor: pointer;
-    button{
-      color: #FFF;
+    button {
+      color: #fff;
       font-size: 20px;
       font-weight: 700;
     }
-    img{
+    img {
       padding: 7px 0 7px 7px;
     }
   }
-  .input{
+  .input {
     position: relative;
-    .send{
-      position:absolute;
-      top:10px;
+    .send {
+      position: absolute;
+      top: 10px;
       right: 10px;
       cursor: pointer;
     }
   }
-  @media (max-width:1260px) {
+  @media (max-width: 1260px) {
     width: 100vw;
   }
 }
-.text{
+.text {
   width: 1055px;
   height: 125px;
   margin-bottom: 40px;
@@ -242,12 +244,12 @@
   font-weight: 700;
 }
 
-.purplebox{
+.purplebox {
   display: inline-flex;
   padding: 10px 30px 10px 25px;
   align-items: flex-start;
   gap: 10px;
   border-radius: 20px;
-  background: #A991E7;
+  background: #a991e7;
   margin-bottom: 10px;
 }
