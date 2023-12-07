@@ -1,5 +1,7 @@
 import { useState } from "react";
+import axios from "axios";
 import styles from "../styles/chat.module.scss";
+
 // import useInput from "../hooks/useInput";
 
 function chat() {
@@ -14,19 +16,18 @@ function chat() {
     }
   };
   const handleClick = () => {
-    try {
-      console.log("post");
-    } catch (error) {
-      alert(error);
-      // resetInput();
-    }
+    axios.get("http://15.165.177.182:8080/characters").then(res => {
+      console.log(res.data);
+    });
   };
   const handleClick2 = () => {
     try {
       // 입력한 텍스트를 메시지 목록에 추가
       if (message.length === 0) {
         setMessages([text]);
-      } else setMessages([...message, text]);
+      } else {
+        setMessages([...message, text]);
+      }
       // 입력 필드 초기화
       setText("");
       console.log("set", message);
@@ -115,9 +116,14 @@ function chat() {
                     접기
                   </button>
                 </div>
-                {message.map(msg => (
-                  <div className={styles.purplebox}>{msg}</div>
-                ))}
+                <div className={styles.msgBox}>
+                  {message.map(msg => (
+                    <div key={message.length} className={styles.purplebox}>
+                      <span>{msg}</span>
+                    </div>
+                  ))}
+                </div>
+
                 <div className={styles.input}>
                   <input
                     type="text"
