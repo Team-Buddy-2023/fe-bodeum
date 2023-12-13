@@ -1,15 +1,22 @@
 import { useState } from "react";
 import axios from "axios";
 import styles from "../styles/chat.module.scss";
-
+import ModalChatExit from "../components/ModalChatExit";
 // import useInput from "../hooks/useInput";
-
+interface JSONDATA {
+  id: number;
+  type: number;
+  content: string;
+}
 function chat() {
   const [text, setText] = useState("");
   // const [text, onInputChange, resetInput] = useInput({ text: "" });
   const [message, setMessages] = useState<string[]>([]);
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState(3); // 임시로 설정
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
+  const datas = require("../data/Chat.json");
   const handleCount = () => {
     if (number !== 3) {
       setNumber(number + 1);
@@ -19,6 +26,9 @@ function chat() {
     axios.get("http://15.165.177.182:8080/characters").then(res => {
       console.log(res.data);
     });
+  };
+  const ExitClick = () => {
+    setModalOpen(!modalOpen);
   };
   const handleClick2 = () => {
     try {
@@ -44,6 +54,14 @@ function chat() {
   };
   return (
     <div role="none" onClick={handleCount}>
+      <div className={styles.finish} role="none" onClick={ExitClick}>
+        <img src="/x.svg" alt="x" />
+      </div>
+      {modalOpen && (
+        <div className={styles.modalBackground}>
+          <ModalChatExit />
+        </div>
+      )}
       {number === 3 ? null : (
         <div className={styles.black}>
           <div className={styles.character} />
@@ -117,9 +135,17 @@ function chat() {
                   </button>
                 </div>
                 <div className={styles.msgBox}>
-                  {message.map(msg => (
-                    <div key={message.length} className={styles.purplebox}>
-                      <span>{msg}</span>
+                  {datas.map((msg: JSONDATA) => (
+                    <div key={datas.id}>
+                      {msg.type === 0 ? (
+                        <div className={styles.msgType0}>
+                          <span>{msg.content}</span>
+                        </div>
+                      ) : (
+                        <div className={styles.msgType1}>
+                          <span>{msg.content}</span>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
