@@ -22,11 +22,13 @@ function chat() {
       setNumber(number + 1);
     }
   };
+  // api 통신
   const handleClick = () => {
     axios.get("http://15.165.177.182:8080/characters").then(res => {
       console.log(res.data);
     });
   };
+  // x 아이콘 클릭 시 모달 open
   const ExitClick = () => {
     setModalOpen(!modalOpen);
   };
@@ -45,10 +47,12 @@ function chat() {
       alert(error);
     }
   };
+  // 채팅창 펼치기
   const handleOpen = () => {
     console.log("open");
     setOpen(!open);
   };
+  // 채팅 글쓰기
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
@@ -59,7 +63,7 @@ function chat() {
       </div>
       {modalOpen && (
         <div className={styles.modalBackground}>
-          <ModalChatExit />
+          <ModalChatExit setModalOpen={setModalOpen} />
         </div>
       )}
       {number === 3 ? null : (
