@@ -22,5 +22,9 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     // ts파일에서 tsx구문 허용(Next.js)
     "react/jsx-filename-extension": [1, { extensions: [".ts", ".tsx"] }], //should add ".ts" if typescript project
+    //중첩된 삼항연산자 사용하기
+    "no-nested-ternary": "off",
+    //role-> aria-label 사용 안해도 됨
+    "jsx-a11y/control-has-associated-label": "off",
   },
 };
