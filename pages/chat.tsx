@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import styles from "../styles/chat.module.scss";
-import ModalChatExit from "../components/ModalChatExit";
+import ModalExit from "../components/ModalExit";
+import MODAL from "../constants/Modal";
 // import useInput from "../hooks/useInput";
 interface JSONDATA {
   id: number;
@@ -24,9 +25,19 @@ function chat() {
   };
   // api 통신
   const handleClick = () => {
-    axios.get("http://15.165.177.182:8080/characters").then(res => {
-      console.log(res.data);
-    });
+    // axios.get("http://15.165.177.182:8080/characters").then(res => {
+    //   console.log(res.data);
+    // });
+    axios
+      .get("http://15.165.177.182:8080/chat/1", {
+        params: {
+          question:
+            "인생의 갈림길에서 어떤 선택을 해야 나중에 후회하지 않을 수 있을까?",
+        },
+      })
+      .then(res => {
+        console.log(res.data);
+      });
   };
   // x 아이콘 클릭 시 모달 open
   const ExitClick = () => {
@@ -63,7 +74,12 @@ function chat() {
       </div>
       {modalOpen && (
         <div className={styles.modalBackground}>
-          <ModalChatExit setModalOpen={setModalOpen} />
+          <ModalExit
+            setModalOpen={setModalOpen}
+            text={MODAL.CHAT_EXIT.TEXT}
+            button1={MODAL.CHAT_EXIT.BUTTON1}
+            button2={MODAL.CHAT_EXIT.BUTTON2}
+          />
         </div>
       )}
       {number === 3 ? null : (
