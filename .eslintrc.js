@@ -26,5 +26,7 @@ module.exports = {
     "no-nested-ternary": "off",
     //role-> aria-label 사용 안해도 됨
     "jsx-a11y/control-has-associated-label": "off",
+    //index를 key값으로 사용
+    "react/no-array-index-key": "off",
   },
 };

@@ -44,12 +44,16 @@
 }
 .character {
   position: absolute;
+  top: -350px;
   z-index: 5;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
+  img {
+    width: 100%;
+  }
 }
 .container {
   position: absolute;
@@ -169,17 +173,17 @@
   .spring {
     position: absolute;
     top: -190px;
-    left: -10px;
+    left: -5px;
   }
   .spring2 {
     position: absolute;
-    top: -150px;
-    right: 80px;
+    top: -120px;
+    right: 100px;
   }
   .message2 {
     position: absolute;
-    top: -170px;
-    right: -200px;
+    top: -150px;
+    right: 0px;
     color: white;
     font-size: 20px;
     font-weight: 700;
@@ -230,8 +234,8 @@
     }
   }
   .input {
-    position: relative;
-    bottom: -120px;
+    position: absolute;
+    bottom: 20px;
     .send {
       position: absolute;
       top: 10px;
@@ -384,10 +388,10 @@
 }
 .sharebutton {
   width: 250px;
-  height: 70px;
+  height: 50px;
   border-radius: 20px;
   background: #fff;
-  margin: 0 10px;
+  margin: 0 20px;
 }
 .sharetext {
   display: inline;
@@ -403,6 +407,9 @@
   background-color: rgb(255, 255, 255);
   overflow-wrap: break-word; /* 단어 단위로 줄바꿈 */
   overflow-y: scroll;
+}
+.sharetext::-webkit-scrollbar-thumb {
+  border-radius: 10px;
 }
 .nonsharetext {
   display: inline;

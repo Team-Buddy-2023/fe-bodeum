@@ -4,9 +4,9 @@ import Slider from "react-slick";
 import styles from "../styles/chat.module.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import SliderContainer from "../components/SliderContainer";
-import ModalExit from "../components/ModalExit";
-import MODAL from "../constants/Modal";
+import SliderContainer from "../../components/SliderContainer";
+import ModalExit from "../../components/ModalExit";
+import MODAL from "../../constants/Modal";
 
 interface JSONDATA {
   id: string;
@@ -65,7 +65,7 @@ function chatShare() {
     <div className={styles.background}>
       <div className={styles.sliderbackdrop}>
         <div className={styles.finish} role="none" onClick={ExitClick}>
-          <img src="/x.svg" alt="x" />
+          <img src="/images/x.svg" alt="x" />
         </div>
         {modalOpen && (
           <div className={styles.modalBackground}>
