@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import { AiOutlineArrowDown } from "react-icons/ai";
+import axios from "axios";
 import styles from "./page.module.scss";
 import Spacing from "../components/atom/Spacing";
 import { ICharacterProps } from "../types/main";
 import Footer from "../components/main/Footer";
-import axios from "axios";
 
 export default function MainPage() {
   const CHARACTER = [
@@ -36,7 +36,11 @@ export default function MainPage() {
 
   const LoginKakaoFn = () => {
     axios
-      .get("http://3.34.172.192:8080/oauth/callback/kakao")
+      .get("http://3.34.172.192:8080/oauth/callback/kakao", {
+        params: {
+          code: "code",
+        },
+      })
       .then(res => console.log(res.data));
   };
 

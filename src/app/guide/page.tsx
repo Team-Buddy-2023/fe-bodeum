@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState } from "react";
-import { useRouter } from "next/router";
-import styles from "../styles/chat.module.scss";
+import { useRouter } from "next/navigation";
+import styles from "../../styles/chat.module.scss";
 
 function guide() {
   const [number, setNumber] = useState(0);

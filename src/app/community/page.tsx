@@ -1,6 +1,6 @@
 import React from "react";
-import Skeleton from "../../../pages/skeleton";
-import styles from "../styles/community.module.scss";
+import Skeleton from "../../components/skeleton";
+import styles from "../../styles/community.module.scss";
 
 // interface IntersectionObserverInit {
 //   root?: Element | Document | null;

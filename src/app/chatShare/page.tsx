@@ -1,7 +1,9 @@
+"use client";
+
 import React, { MouseEvent, useState, useRef } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import Slider from "react-slick";
-import styles from "../styles/chat.module.scss";
+import styles from "../../styles/chat.module.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SliderContainer from "../../components/SliderContainer";
@@ -23,7 +25,7 @@ interface SliderProps {
 }
 function chatShare() {
   // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-  const datas = require("../data/Carousel.json");
+  const datas = require("../../data/Carousel.json");
   const [isActive, setActive] = useState("0");
   const [normal, setNormal] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
