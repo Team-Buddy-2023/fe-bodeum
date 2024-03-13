@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { AiOutlineArrowDown } from "react-icons/ai";
-import axios from "axios";
 import styles from "./page.module.scss";
 import Spacing from "../components/atom/Spacing";
 import { ICharacterProps } from "../types/main";
@@ -35,13 +34,8 @@ export default function MainPage() {
   const LOGINSTATUS = false;
 
   const LoginKakaoFn = () => {
-    axios
-      .get("http://3.34.172.192:8080/oauth/callback/kakao", {
-        params: {
-          code: "code",
-        },
-      })
-      .then(res => console.log(res.data));
+    window.location.href =
+      "https://kauth.kakao.com/oauth/authorize?client_id=e1ca1242637d6f7e5d769861cbf80017&redirect_uri=http://localhost:3000/success&response_type=code";
   };
 
   return (
@@ -87,6 +81,7 @@ export default function MainPage() {
               alt="메인 로고"
               width="350"
               height="64"
+              id={styles.logo}
             />
             <div className={styles.desc}>
               원하는 플러피를 선택하고 대화를 시작해보세요
@@ -95,25 +90,34 @@ export default function MainPage() {
             <div className={styles.nav}>
               {LOGINSTATUS ? (
                 <>
-                  <button type="button">마이페이지</button>
-                  <button type="button">커뮤니티</button>
+                  <button className={styles.defaultBtn} type="button">
+                    마이페이지
+                  </button>
+                  <button className={styles.defaultBtn} type="button">
+                    커뮤니티
+                  </button>
                 </>
               ) : (
-                <button
-                  type="button"
-                  className={styles.kakaoBtn}
-                  onClick={() => {
-                    LoginKakaoFn();
-                  }}
-                >
-                  <Image
-                    src="/images/ic_kakao.svg"
-                    alt="카카오 로그인"
-                    width="20"
-                    height="20"
-                  />
-                  <span>카카오로 5초만에 시작하기</span>
-                </button>
+                <>
+                  <button
+                    className={styles.kakaoBtn}
+                    onClick={() => {
+                      LoginKakaoFn();
+                    }}
+                    type="button"
+                  >
+                    <Image
+                      src="/images/ic_kakao.svg"
+                      alt="카카오 로그인"
+                      width="20"
+                      height="20"
+                    />
+                    <span>카카오로 5초만에 시작하기</span>
+                  </button>
+                  <button className={styles.defaultBtn} type="button">
+                    <span>커뮤니티</span>
+                  </button>
+                </>
               )}
             </div>
           </div>
