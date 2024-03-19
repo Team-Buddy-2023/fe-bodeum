@@ -1,4 +1,6 @@
 import "./global.scss";
+import ReactQueryProvider from "./ReactQueryProvider";
+import RecoilRootWrapper from "./RecoilRootWrapper";
 
 export const metadata = {
   title: "Next.js",
@@ -12,7 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <RecoilRootWrapper>
+          <ReactQueryProvider>{children}</ReactQueryProvider>
+        </RecoilRootWrapper>
+      </body>
     </html>
   );
 }
