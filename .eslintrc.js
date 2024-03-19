@@ -28,5 +28,7 @@ module.exports = {
     "jsx-a11y/control-has-associated-label": "off",
     //index를 key값으로 사용
     "react/no-array-index-key": "off",
+    //확장자명
+    "import/extensions": ["off"],
   },
 };
