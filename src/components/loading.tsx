@@ -10,10 +10,10 @@ function loading() {
           <div className={styles.droplet} />
           <div className={styles.droplet} />
         </div>
-        <img src="/loading.svg" alt="loading" />
+        <img src="/images/loading.svg" alt="loading" />
       </div>
       <div className={styles.character}>
-        <img src="/character.svg" alt="character" />
+        <img src="/images/character.svg" alt="character" />
       </div>
       <div className={styles.comment}>캐릭터 문구</div>
     </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { RecoilRoot } from "recoil";
 import ReactQueryProvider from "./ReactQueryProvider";
 
 export default function RootComponent({
@@ -6,5 +7,9 @@ export default function RootComponent({
 }: {
   children: React.ReactNode;
 }) {
-  return <ReactQueryProvider>{children}</ReactQueryProvider>;
+  return (
+    <RecoilRoot>
+      <ReactQueryProvider>{children}</ReactQueryProvider>
+    </RecoilRoot>
+  );
 }

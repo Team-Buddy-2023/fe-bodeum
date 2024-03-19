@@ -36,7 +36,7 @@
     align-items: center;
     justify-content: center;
 
-    color: #000;
+    color: gray;
     font-size: 28px;
     left: 48%;
     @media (max-width: 1000px) {
@@ -93,21 +93,41 @@
       align-items: center;
       gap: 10px;
 
+      #logo {
+        margin-left: 15px;
+      }
+
       .desc {
         font-size: 18px;
         font-weight: 700;
+
+        @media (max-width: 1000px) {
+          font-size: 14px;
+        }
       }
 
       .nav {
         display: flex;
+        flex-direction: column;
         gap: 20px;
 
         .kakaoBtn {
           display: flex;
           width: 350px;
           align-items: center;
-          justify-content: space-between;
+          justify-content: center;
+          height: 60px;
           background-color: #ffe500;
+          span {
+            margin-left: 5px;
+          }
+        }
+
+        .defaultBtn {
+          width: 350px;
+          background-color: #ffffff;
+          align-items: center;
+          height: 60px;
         }
       }
     }

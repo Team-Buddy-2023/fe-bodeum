@@ -58,9 +58,7 @@ function chatShare() {
   const homeClick = () => {
     router.push("/");
   };
-  const comClick = () => {
-    router.push("/commuity");
-  };
+
   // 특정글을 선택하면 active처리, 그 외에 것들은 nonActive(검은색 화면)
   // 글 영역 이외인 부분을 클릭 시 -> normal은 true가 되고, active와 nonActive 모두 풀림.
   return (
@@ -127,7 +125,7 @@ function chatShare() {
           <button
             className={styles.sharebutton}
             type="button"
-            onClick={comClick}
+            onClick={homeClick}
           >
             커뮤니티
           </button>

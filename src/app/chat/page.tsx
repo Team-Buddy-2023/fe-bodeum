@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
 import styles from "../../styles/chat.module.scss";
 import ModalExit from "../../components/ModalExit";
 import MODAL from "../../constants/Modal";
 // import useInput from "../hooks/useInput";
+import { api } from "../../apis/api";
+
 interface JSONDATA {
   id: number;
   type: number;
@@ -20,12 +21,18 @@ function chat() {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
   const datas = require("../../data/Chat.json");
   const defaultMessage =
-    "안녕 나는 토비야. 만나서 반가워. 무슨 고민이 있어서 왔니";
+    "안녕 나는 토비야. 만나서 반가워. 무슨 고민이 있어서 왔니?";
   // api 통신
   const handleClick = () => {
-    axios.get("http://3.34.172.192:8080/characters").then(res => {
-      console.log(res.data);
-    });
+    api
+      .get("/chat/1", {
+        params: {
+          question: text,
+        },
+      })
+      .then(res => {
+        console.log(res.data);
+      });
   };
   // x 아이콘 클릭 시 모달 open
   const ExitClick = () => {

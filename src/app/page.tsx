@@ -2,12 +2,16 @@
 
 import Image from "next/image";
 import { AiOutlineArrowDown } from "react-icons/ai";
+import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
+import userSelector from "@/recoil/selector/userSelector";
 import styles from "./page.module.scss";
 import Spacing from "../components/atom/Spacing";
 import { ICharacterProps } from "../types/main";
 import Footer from "../components/main/Footer";
 
 export default function MainPage() {
+  const [btnWord, setBtnWord] = useState("카오로 5초만에 시작하기");
   const CHARACTER = [
     {
       name: "토비",
@@ -30,8 +34,10 @@ export default function MainPage() {
       info: "누구에게나 사랑을 전달하며 온 세상을 따뜻하게 만드는 블리 당신에게 희망을 드릴게요",
     },
   ];
-
-  const LOGINSTATUS = false;
+  const LOGINSTATUS = useRecoilValue(userSelector).isLogin;
+  useEffect(() => {
+    if (LOGINSTATUS) setBtnWord("마이페이지");
+  }, []);
 
   const LoginKakaoFn = () => {
     window.location.href =
@@ -91,7 +97,7 @@ export default function MainPage() {
               {LOGINSTATUS ? (
                 <>
                   <button className={styles.defaultBtn} type="button">
-                    마이페이지
+                    {btnWord}
                   </button>
                   <button className={styles.defaultBtn} type="button">
                     커뮤니티
@@ -112,7 +118,7 @@ export default function MainPage() {
                       width="20"
                       height="20"
                     />
-                    <span>카카오로 5초만에 시작하기</span>
+                    <span>{btnWord}</span>
                   </button>
                   <button className={styles.defaultBtn} type="button">
                     <span>커뮤니티</span>

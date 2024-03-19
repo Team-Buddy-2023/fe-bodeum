@@ -1,28 +1,29 @@
 "use client";
 
-import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import apis from "../../apis/api";
+import { useRecoilValue } from "recoil";
+import { useEffect } from "react";
+import useOAuth from "@/hooks/useOAuth";
+import userSelector from "@/recoil/selector/userSelector";
 
 const page = () => {
   const params = useSearchParams();
-  const limitParam: string | null = params.get("code");
-
   const router = useRouter();
-
+  const limitParam: string | null = params.get("code");
+  const { isLoading, error } = useOAuth(limitParam);
+  // selector 사용해서 userState 값 읽기
+  const data = useRecoilValue(userSelector);
+  console.log(data);
+  if (isLoading) console.log("로그인 정보 가져오는중");
+  if (error) console.log(error.message);
+  // 요청 성공 시 홈화면으로 이동
   useEffect(() => {
-    const kakaoAuth = async () => {
-      try {
-        const res = await apis.kakaoAuth(limitParam);
-        console.log(res);
-        router.push("/guide");
-      } catch (e) {
-        alert("로그인에 실패했습니다. 잠시 후 다시 시도해주세요.");
-      }
-    };
-
-    kakaoAuth();
+    if (data?.isLogin) {
+      console.log("로그인 성공! 홈 화면 이동");
+      router.push("/");
+    }
   }, []);
+  return null;
 };
 
 export default page;
