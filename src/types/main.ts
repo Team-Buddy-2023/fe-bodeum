@@ -1,5 +1,5 @@
 export interface ICharacterProps {
+  id: number;
   name: string;
-  src: string;
-  info: string;
+  description: string;
 }

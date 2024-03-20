@@ -15,6 +15,7 @@ api.interceptors.request.use(config => {
 const apis = {
   kakaoAuth: (token: string | null) =>
     api.get(`/oauth/callback/kakao/`, { params: { code: token } }),
+  characters: () => api.get("/characters"),
 };
 
 export default apis;
