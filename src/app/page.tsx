@@ -4,14 +4,24 @@ import Image from "next/image";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import userSelector from "@/recoil/selector/userSelector";
 import styles from "./page.module.scss";
 import Spacing from "../components/atom/Spacing";
 import { ICharacterProps } from "../types/main";
 import Footer from "../components/main/Footer";
+import useGetCharacter from "@/hooks/useGetCharacter";
+import charactersSelector from "@/recoil/selector/charactersSelector";
 
 export default function MainPage() {
-  const [btnWord, setBtnWord] = useState("카오로 5초만에 시작하기");
+  const [isLogin, setLogin] = useState(false);
+  const [characters, setCharacters] = useState([]);
+  const router = useRouter();
+  // 캐릭터 정보 요청
+  const { data } = useGetCharacter();
+  console.log("캐릭터 정보", data);
+  // 캐릭터 임시 데이터
+  // 이미지 경로만 하드코딩 이용
   const CHARACTER = [
     {
       name: "토비",
@@ -34,14 +44,26 @@ export default function MainPage() {
       info: "누구에게나 사랑을 전달하며 온 세상을 따뜻하게 만드는 블리 당신에게 희망을 드릴게요",
     },
   ];
+  // recoil store에서 정보 가져오기
   const LOGINSTATUS = useRecoilValue(userSelector).isLogin;
+  const CHARACTERSSTATUS = useRecoilValue(charactersSelector);
+
   useEffect(() => {
-    if (LOGINSTATUS) setBtnWord("마이페이지");
-  }, []);
+    setCharacters(CHARACTERSSTATUS);
+    // recoil에 저장된 값에 따라 isLogin(로그인 상태값) 변경
+    if (LOGINSTATUS) setLogin(true);
+    else setLogin(false);
+  }, [LOGINSTATUS, CHARACTERSSTATUS]);
 
   const LoginKakaoFn = () => {
     window.location.href =
       "https://kauth.kakao.com/oauth/authorize?client_id=e1ca1242637d6f7e5d769861cbf80017&redirect_uri=http://localhost:3000/success&response_type=code";
+  };
+  const MyPage = () => {
+    router.push("/mypage");
+  };
+  const Community = () => {
+    router.push("/community");
   };
 
   return (
@@ -94,12 +116,24 @@ export default function MainPage() {
             </div>
             <Spacing height="10px" />
             <div className={styles.nav}>
-              {LOGINSTATUS ? (
+              {isLogin ? (
                 <>
-                  <button className={styles.defaultBtn} type="button">
-                    {btnWord}
+                  <button
+                    className={styles.defaultBtn}
+                    onClick={() => {
+                      MyPage();
+                    }}
+                    type="button"
+                  >
+                    마이페이지
                   </button>
-                  <button className={styles.defaultBtn} type="button">
+                  <button
+                    className={styles.defaultBtn}
+                    onClick={() => {
+                      Community();
+                    }}
+                    type="button"
+                  >
                     커뮤니티
                   </button>
                 </>
@@ -118,9 +152,15 @@ export default function MainPage() {
                       width="20"
                       height="20"
                     />
-                    <span>{btnWord}</span>
+                    <span>카카오 로그인</span>
                   </button>
-                  <button className={styles.defaultBtn} type="button">
+                  <button
+                    className={styles.defaultBtn}
+                    onClick={() => {
+                      Community();
+                    }}
+                    type="button"
+                  >
                     <span>커뮤니티</span>
                   </button>
                 </>
@@ -128,17 +168,17 @@ export default function MainPage() {
             </div>
           </div>
           <div className={styles.rightBox}>
-            {CHARACTER.map((item: ICharacterProps, idx: number) => {
+            {characters.map((item: ICharacterProps, idx: number) => {
               return (
-                <div className={styles.characterCard} key={idx}>
+                <div className={styles.characterCard} key={item.id}>
                   <span className={styles.name}>{item.name}</span>
                   <Image
-                    src={item.src}
+                    src={CHARACTER[idx].src}
                     alt={item.name}
                     width="150"
                     height="150"
                   />
-                  <p className={styles.info}>{item.info}</p>
+                  <p className={styles.info}>{item.description}</p>
                 </div>
               );
             })}

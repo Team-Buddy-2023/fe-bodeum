@@ -22,7 +22,7 @@ const page = () => {
       console.log("로그인 성공! 홈 화면 이동");
       router.push("/");
     }
-  }, []);
+  }, [data]);
   return null;
 };
 

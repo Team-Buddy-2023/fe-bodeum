@@ -14,19 +14,19 @@ async function kakaoAuth(limitParam: string | null) {
 }
 function useOAuth(limitParam: string | null) {
   const setUser = useSetRecoilState(userState);
-  const { isLoading, error, isSuccess, data } = useQuery({
+  const { isLoading, error, data } = useQuery({
     queryKey: ["OAuth"],
     queryFn: () => kakaoAuth(limitParam),
   });
   useEffect(() => {
-    if (isSuccess)
+    if (data !== undefined)
       setUser({
         isLogin: true,
-        token: data?.data.token,
-        userId: data?.data.userId,
+        token: data?.data.data.token,
+        userId: data?.data.data.userId,
       });
   }, [data]);
-  return { isLoading, error, isSuccess };
+  return { isLoading, error };
 }
 
 export default useOAuth;
