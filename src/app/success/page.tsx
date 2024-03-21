@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import useOAuth from "@/hooks/useOAuth";
 import userSelector from "@/recoil/selector/userSelector";
 
-const page = () => {
+function Success() {
   const params = useSearchParams();
   const router = useRouter();
   const limitParam: string | null = params.get("code");
@@ -24,6 +24,6 @@ const page = () => {
     }
   }, [data]);
   return null;
-};
+}
 
-export default page;
+export default Success;
