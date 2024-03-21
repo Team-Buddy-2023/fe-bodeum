@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import commonMetaData from "@/meta-data/meta-data";
 
 export const metadata: Metadata = {
