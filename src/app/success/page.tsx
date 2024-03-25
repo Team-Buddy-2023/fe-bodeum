@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { useEffect } from "react";
 import useOAuth from "@/hooks/useOAuth";
 import userSelector from "@/recoil/selector/userSelector";
+import Loading from "@/components/loading";
 
 function Success() {
   const params = useSearchParams();
@@ -23,7 +24,7 @@ function Success() {
       router.push("/");
     }
   }, [data]);
-  return null;
+  return <Loading />;
 }
 
 export default Success;

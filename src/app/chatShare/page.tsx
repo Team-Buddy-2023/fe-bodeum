@@ -26,9 +26,9 @@ interface SliderProps {
 function chatShare() {
   // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
   const datas = require("../../data/Carousel.json");
-  const [isActive, setActive] = useState("0");
-  const [normal, setNormal] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [isActive, setActive] = useState<string>("0");
+  const [normal, setNormal] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const divRef = useRef(null);
   const router = useRouter();
   const settings: SliderProps = {

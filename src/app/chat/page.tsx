@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import characterSelector from "@/recoil/selector/characterSelector";
+import charactersSelector from "@/recoil/selector/charactersSelector";
 import styles from "../../styles/chat.module.scss";
 import ModalExit from "../../components/ModalExit";
 import MODAL from "../../constants/Modal";
-// import useInput from "../hooks/useInput";
-import { api } from "../../apis/api";
+import useChat from "@/hooks/useChat";
 
 interface JSONDATA {
   id: number;
@@ -13,27 +15,23 @@ interface JSONDATA {
   content: string;
 }
 function chat() {
-  const [text, setText] = useState("");
+  const [text, setText] = useState<string>("");
   // const [text, onInputChange, resetInput] = useInput({ text: "" });
   const [message, setMessages] = useState<string[]>([]);
-  const [open, setOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
   const datas = require("../../data/Chat.json");
-  const defaultMessage =
-    "안녕 나는 토비야. 만나서 반가워. 무슨 고민이 있어서 왔니?";
+
+  const CHARACTERSTATUS = useRecoilValue(characterSelector);
+  const CHARACTERSSTATUS = useRecoilValue(charactersSelector);
+
+  const id = CHARACTERSTATUS ? CHARACTERSTATUS - 1 : 1;
+  const character = CHARACTERSSTATUS[id];
+
+  const defaultMessage = `안녕 나는 ${character?.name}야. 만나서 반가워. 무슨 고민이 있어서 왔니?`;
   // api 통신
-  const handleClick = () => {
-    api
-      .get("/chat/1", {
-        params: {
-          question: text,
-        },
-      })
-      .then(res => {
-        console.log(res.data);
-      });
-  };
+  const { refetch } = useChat(id, text);
   // x 아이콘 클릭 시 모달 open
   const ExitClick = () => {
     setModalOpen(!modalOpen);
@@ -89,7 +87,7 @@ function chat() {
                   </button>
                 </div>
                 <div className={styles.msgBox}>
-                  {datas.map((msg: JSONDATA, idx: number) => (
+                  {datas?.map((msg: JSONDATA, idx: number) => (
                     <div key={idx}>
                       {msg.type === 0 ? (
                         <div className={styles.msgType0}>
@@ -151,7 +149,7 @@ function chat() {
                     placeholder="내용을 입력해주세요"
                   />
                   {/* <input name="text" value={text} onChange={onInputChange} /> */}
-                  <div role="none" onClick={handleClick}>
+                  <div role="none" onClick={() => refetch}>
                     <img
                       className={styles.send}
                       src="/images/send.svg"
