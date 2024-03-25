@@ -57,7 +57,7 @@ function guide() {
             ) : null}
             <div className={styles.text}>
               <p>
-                안녕 나는 {character.name}야. 만나서 반가워 <br />
+                안녕 나는 {character?.name}야. 만나서 반가워 <br />
                 무슨 고민이 있어서 왔니?
               </p>
             </div>
