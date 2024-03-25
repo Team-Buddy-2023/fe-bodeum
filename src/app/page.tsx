@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { AiOutlineArrowDown } from "react-icons/ai";
-import { useRecoilValue } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import userSelector from "@/recoil/selector/userSelector";
@@ -12,38 +12,41 @@ import { ICharacterProps } from "../types/main";
 import Footer from "../components/main/Footer";
 import useGetCharacter from "@/hooks/useGetCharacter";
 import charactersSelector from "@/recoil/selector/charactersSelector";
+import characterState from "@/recoil/atom/characterAtom";
+
+// 캐릭터 임시 데이터
+// 이미지 경로만 하드코딩 이용
+const CHARACTER = [
+  {
+    name: "토비",
+    src: "/images/ch_tobi.png",
+    info: "따뜻한 마음을 지닌 활발한 토비 당신에게 즐거운 웃음과 감동을 전해 밝게 비춰드릴게요",
+  },
+  {
+    name: "마이로",
+    src: "/images/ch_myro.png",
+    info: "이성적이면서 현실적인 판단을 당신에게 전달해드릴 똑똑한 조언자 마이로에요",
+  },
+  {
+    name: "루미나",
+    src: "/images/ch_rumina.png",
+    info: "감성적이고 창의적인 루미나 당신이 예상치 못한 답변으로 감동을 전달해드릴게요",
+  },
+  {
+    name: "블리",
+    src: "/images/ch_bly.png",
+    info: "누구에게나 사랑을 전달하며 온 세상을 따뜻하게 만드는 블리 당신에게 희망을 드릴게요",
+  },
+];
 
 export default function MainPage() {
   const [isLogin, setLogin] = useState(false);
   const [characters, setCharacters] = useState([]);
+  const setCharacter = useSetRecoilState(characterState);
   const router = useRouter();
   // 캐릭터 정보 요청
   const { data } = useGetCharacter();
   console.log("캐릭터 정보", data);
-  // 캐릭터 임시 데이터
-  // 이미지 경로만 하드코딩 이용
-  const CHARACTER = [
-    {
-      name: "토비",
-      src: "/images/ch_tobi.png",
-      info: "따뜻한 마음을 지닌 활발한 토비 당신에게 즐거운 웃음과 감동을 전해 밝게 비춰드릴게요",
-    },
-    {
-      name: "마이로",
-      src: "/images/ch_myro.png",
-      info: "이성적이면서 현실적인 판단을 당신에게 전달해드릴 똑똑한 조언자 마이로에요",
-    },
-    {
-      name: "루미나",
-      src: "/images/ch_rumina.png",
-      info: "감성적이고 창의적인 루미나 당신이 예상치 못한 답변으로 감동을 전달해드릴게요",
-    },
-    {
-      name: "블리",
-      src: "/images/ch_bly.png",
-      info: "누구에게나 사랑을 전달하며 온 세상을 따뜻하게 만드는 블리 당신에게 희망을 드릴게요",
-    },
-  ];
   // recoil store에서 정보 가져오기
   const LOGINSTATUS = useRecoilValue(userSelector).isLogin;
   const CHARACTERSSTATUS = useRecoilValue(charactersSelector);
@@ -65,7 +68,11 @@ export default function MainPage() {
   const Community = () => {
     router.push("/community");
   };
-
+  const clickCharacter = (id: number) => {
+    console.log(id);
+    setCharacter(id);
+    router.push("/guide");
+  };
   return (
     <main className={styles.main}>
       <Spacing height="100px" />
@@ -170,7 +177,14 @@ export default function MainPage() {
           <div className={styles.rightBox}>
             {characters.map((item: ICharacterProps, idx: number) => {
               return (
-                <div className={styles.characterCard} key={item.id}>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  className={styles.characterCard}
+                  key={item.id}
+                  onClick={() => clickCharacter(item.id)}
+                  onKeyDown={() => clickCharacter(item.id)}
+                >
                   <span className={styles.name}>{item.name}</span>
                   <Image
                     src={CHARACTER[idx].src}
