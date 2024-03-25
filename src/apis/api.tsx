@@ -16,6 +16,8 @@ const apis = {
   kakaoAuth: (token: string | null) =>
     api.get(`/oauth/callback/kakao/`, { params: { code: token } }),
   characters: () => api.get("/characters"),
+  chat: (id: number, text: string) =>
+    api.get(`/chat/${id}`, { params: { question: text } }),
 };
 
 export default apis;
