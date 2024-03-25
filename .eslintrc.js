@@ -30,5 +30,7 @@ module.exports = {
     "react/no-array-index-key": "off",
     //확장자명
     "import/extensions": ["off"],
+    //알림창
+    "no-alert": "off",
   },
 };
