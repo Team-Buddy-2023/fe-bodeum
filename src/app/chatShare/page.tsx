@@ -22,6 +22,7 @@ interface SliderProps {
   slidesToShow: number;
   slidesToScroll: number;
   speed: number;
+  draggable: boolean;
 }
 function chatShare() {
   // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
@@ -38,6 +39,7 @@ function chatShare() {
     slidesToShow: 4,
     slidesToScroll: 4,
     speed: 500,
+    draggable: false,
   };
   // x 아이콘 클릭 시 모달 open
   const ExitClick = () => {
