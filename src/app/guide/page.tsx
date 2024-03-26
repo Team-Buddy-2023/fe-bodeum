@@ -91,7 +91,10 @@ function guide() {
           <div className={styles.container}>
             <div className={styles.box}>
               <div className={styles.character}>
-                <img src="/images/character.svg" alt="character" />
+                <img
+                  src={`/images/character${CHARACTERSTATUS}.svg`}
+                  alt="character"
+                />
               </div>
               <div className={styles.scrap}>
                 <img src="/images/scrap.svg" alt="scrap" />
