@@ -47,7 +47,9 @@ function chatShare() {
   // 답변
   const CHATFluffy = CHAT.filter((chat: CHATDATA) => chat.id === 1);
   const CHAT_SHARE: React.SetStateAction<JSONDATA[]> = [];
-  const [ALL_CHAT, setAllChat] = useState<JSONDATA[]>([]);
+  const [ALL_CHAT, setAllChat] = useState<JSONDATA[]>([
+    { id: 0, title: "", text: "" },
+  ]);
   for (let i = 0; i < CHAT_ME.length; i++) {
     CHAT_SHARE.push({
       id: i,
