@@ -9,13 +9,15 @@
 .loading {
   position: relative;
   margin-top: 100px;
-  .dots {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    left: 67px;
-    top: 35px;
-  }
+}
+.dotBox {
+  position: absolute;
+  left: 67px;
+  top: 35px;
+}
+.dots {
+  display: flex;
+  flex-direction: row;
 }
 
 .dots .droplet {
