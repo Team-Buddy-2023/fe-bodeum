@@ -6,10 +6,10 @@ import Dots from "./Dots";
 
 function loading() {
   const CHARACTERSTATUS = useRecoilValue(characterSelector);
-  const [imgNum, setImgNum] = useState(0);
+  const [imgNum, setImgNum] = useState(9);
   useEffect(() => {
-    setImgNum(CHARACTERSTATUS);
-  }, [CHARACTERSTATUS]);
+    setImgNum(CHARACTERSTATUS.id);
+  });
   return (
     <div className={styles.background}>
       <div className={styles.loading}>
@@ -19,7 +19,14 @@ function loading() {
         <img src="/images/loading.svg" alt="loading" />
       </div>
       <div className={styles.character}>
-        <img src={`/images/character${imgNum}.svg`} alt="character" />
+        <img
+          src={
+            imgNum >= 9
+              ? `/images/character${imgNum}.svg`
+              : "/images/character9.svg"
+          }
+          alt="character"
+        />
       </div>
       <div className={styles.comment}>캐릭터 문구</div>
     </div>
