@@ -20,6 +20,7 @@ function useGetCharacter() {
     queryFn: () => getCharacters(),
   });
   useEffect(() => {
+    console.log(data);
     if (data !== undefined) setCharacters(data.data);
   });
   return { isLoading, error, data };

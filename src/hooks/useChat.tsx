@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
 import apis from "@/apis/api";
 
 async function chat(id: number, text: string) {
@@ -12,12 +11,12 @@ async function chat(id: number, text: string) {
 }
 
 function useChat(id: number, text: string) {
-  const { isLoading, error, data, refetch } = useQuery({
+  const { isLoading, data, isFetching, refetch } = useQuery({
     queryKey: ["Chat"],
     queryFn: () => chat(id, text),
+    enabled: false,
   });
-  useEffect(() => {});
-  return { isLoading, error, data, refetch };
+  return { isLoading, data, isFetching, refetch };
 }
 
 export default useChat;
