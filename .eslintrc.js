@@ -32,5 +32,7 @@ module.exports = {
     "import/extensions": ["off"],
     //알림창
     "no-alert": "off",
+    // ++, --
+    "no-plusplus": "off",
   },
 };
