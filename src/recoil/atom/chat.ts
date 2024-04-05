@@ -11,7 +11,7 @@ const { persistAtom } = recoilPersist({
 
 const chatState = atom({
   key: "chatState",
-  default: [{ id: 0, text: "" }],
+  default: [],
   effects_UNSTABLE: [persistAtom],
 });
 
