@@ -68,9 +68,9 @@ export default function MainPage() {
   const Community = () => {
     router.push("/community");
   };
-  const clickCharacter = (id: number) => {
+  const clickCharacter = (id: number, name: string) => {
     console.log(id);
-    setCharacter(id);
+    setCharacter({ id, name });
     router.push("/guide");
   };
   return (
@@ -182,8 +182,8 @@ export default function MainPage() {
                   tabIndex={0}
                   className={styles.characterCard}
                   key={item.id}
-                  onClick={() => clickCharacter(item.id)}
-                  onKeyDown={() => clickCharacter(item.id)}
+                  onClick={() => clickCharacter(item.id, item.name)}
+                  onKeyDown={() => clickCharacter(item.id, item.name)}
                 >
                   <span className={styles.name}>{item.name}</span>
                   <Image

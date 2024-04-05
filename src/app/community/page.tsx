@@ -1,57 +1,25 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import Skeleton from "../../components/skeleton";
 import styles from "../../styles/community.module.scss";
+import useCommunity from "@/hooks/useCommunity";
+import { GetCommunity } from "@/types/community";
+import communitySelector from "@/recoil/selector/communitySelector";
 
-// interface IntersectionObserverInit {
-//   root?: Element | Document | null;
-//   rootMargin?: string;
-//   threshold?: number | number[];
-// }
-// type IntersectHandler = (
-//   entry: IntersectionObserverEntry,
-//   observer: IntersectionObserver,
-// ) => void;
-
-// function community(
-//   onIntersect: IntersectHandler,
-//   options?: IntersectionObserverInit,
-// ) {
-//   const ref = useRef<HTMLDivElement>(null);
-
-//   const callback = useCallback(
-//     (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-//       entries.forEach(entry => {
-//         if (entry.isIntersecting) onIntersect(entry, observer);
-//       });
-//     },
-//     [onIntersect],
-//   );
-//   useEffect(() => {
-//     if (!ref.current) return () => {};
-//     const observer = new IntersectionObserver(callback, options);
-//     observer.observe(ref.current);
-//     return () => observer.disconnect();
-//   }, [ref, options, callback]);
-//   const userkeys = {
-//     all: ["users"] as const,
-//     lists: () => [...userkeys.all, "list"] as const,
-//     list: (filters: string) => [...userkeys.lists(), { filters }] as const,
-//     details: () => [...userkeys.all, "detail"] as const,
-//     detail: (id: number) => [...userkeys.details(), id] as const,
-//   };
-// const useFetchUsers = ({ size }: PaginationParams) =>
-//   useInfiniteQuery(
-//     userkeys.lists(),
-//     ({ pageParam = 0 }: QueryFunctionContext) =>
-//       axios.get<PaginationResponse<User>>("/users", {
-//         params: { page: pageParam, size },
-//       }),
-//     {
-//       getNextPageParam: ({ data: { isLastPage, pageNumber } }) =>
-//         isLastPage ? undefined : pageNumber + 1,
-//     },
-//   );
 function community() {
+  const { isLoading, data } = useCommunity();
+  console.log(data);
+  const BOARD = useRecoilValue(communitySelector);
+  console.log(BOARD);
+  const [board, setBoard] = useState([]);
+  useEffect(() => {
+    if (BOARD) {
+      setBoard(BOARD);
+      console.log(BOARD);
+    }
+  }, [BOARD]); // 의존성 배열에 BOARD.data 추가
   return (
     <div className={styles.background}>
       <div className={styles.container}>
@@ -66,12 +34,30 @@ function community() {
           <input placeholder="검색어를 입력하세요." />
         </div>
         <div className={styles.board}>
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
+          {isLoading ? (
+            <>
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+            </>
+          ) : (
+            <>
+              {board.map((val: GetCommunity) => {
+                return (
+                  <div key={val.chatId} className={styles.box}>
+                    <img src="/images/userIcon.svg" alt="" />
+                    <div>{val.nickname}</div>
+                    <div>{val.dateTime}</div>
+                    <div>{val.comment}</div>
+                    <div>{val.answer}</div>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
     </div>

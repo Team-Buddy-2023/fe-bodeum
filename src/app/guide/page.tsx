@@ -1,21 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
-import charactersSelector from "@/recoil/selector/charactersSelector";
 import characterSelector from "@/recoil/selector/characterSelector";
 import styles from "../../styles/chat.module.scss";
 
 function guide() {
+  const CHARACTERSTATUS = useRecoilValue(characterSelector);
+
   const [number, setNumber] = useState<number>(0);
   const router = useRouter();
-  const CHARACTERSTATUS = useRecoilValue(characterSelector);
-  const CHARACTERSSTATUS = useRecoilValue(charactersSelector);
 
-  const id = CHARACTERSTATUS ? CHARACTERSTATUS - 1 : 1;
-  const character = CHARACTERSSTATUS[id];
-
+  const [imgNum, setImgNum] = useState(9);
+  const [charName, setCharName] = useState("");
   const handleCount = () => {
     if (number !== 2) {
       setNumber(number + 1);
@@ -23,6 +21,10 @@ function guide() {
       router.push("/chat");
     }
   };
+  useEffect(() => {
+    setImgNum(CHARACTERSTATUS.id);
+    setCharName(CHARACTERSTATUS.name);
+  }, [CHARACTERSTATUS]);
   return (
     <div role="none" onClick={handleCount}>
       <div className={styles.black}>
@@ -57,8 +59,7 @@ function guide() {
             ) : null}
             <div className={styles.text}>
               <p>
-                안녕 나는 {character?.name}야. 만나서 반가워 <br />
-                무슨 고민이 있어서 왔니?
+                안녕 나는 {charName}야. 만나서 반가워. 무슨 고민이 있어서 왔니?
               </p>
             </div>
             {number === 2 ? (
@@ -91,10 +92,7 @@ function guide() {
           <div className={styles.container}>
             <div className={styles.box}>
               <div className={styles.character}>
-                <img
-                  src={`/images/character${CHARACTERSTATUS}.svg`}
-                  alt="character"
-                />
+                <img src={`/images/character${imgNum}.svg`} alt="character" />
               </div>
               <div className={styles.scrap}>
                 <img src="/images/scrap.svg" alt="scrap" />
@@ -108,8 +106,8 @@ function guide() {
               </div>
               <div className={styles.text}>
                 <p>
-                  안녕 나는 {character?.name}야. 만나서 반가워. 무슨 고민이
-                  있어서 왔니?
+                  안녕 나는 {charName}야. 만나서 반가워. 무슨 고민이 있어서
+                  왔니?
                 </p>
               </div>
               <div className={styles.input}>
