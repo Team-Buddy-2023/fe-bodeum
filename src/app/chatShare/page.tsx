@@ -143,7 +143,7 @@ function chatShare() {
           <div className={styles.chatSlider2}>
             {ALL_CHAT.map((obj: JSONDATA) => (
               <SliderContainer
-                obj={obj.id}
+                obj={String(obj.id)}
                 key={obj.id}
                 className={styles.card}
                 title={obj.title}
@@ -159,7 +159,7 @@ function chatShare() {
             <Slider {...settings}>
               {ALL_CHAT.map((obj: JSONDATA) => (
                 <SliderContainer
-                  obj={obj.id}
+                  obj={String(obj.id)}
                   key={obj.id}
                   className={styles.card}
                   title={obj.title}
