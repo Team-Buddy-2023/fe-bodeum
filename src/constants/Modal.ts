@@ -12,7 +12,7 @@ const MODAL = {
   SHARE_EXIT: <DATA>{
     TEXT: "결과창을 닫을까요? 다시 결과창으로 돌아올 수 없어요",
     BUTTON1: "돌아가기",
-    BUTTON2: "끝내기",
+    BUTTON2: "홈",
   },
   SHARE: <DATA>{
     TEXT: "선택한 답변을 커뮤니티에 공유할까요?",
