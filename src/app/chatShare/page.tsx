@@ -1,7 +1,8 @@
 "use client";
 
-import React, { MouseEvent, useState, useRef } from "react";
+import React, { MouseEvent, useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import Slider from "react-slick";
 import styles from "../../styles/chat.module.scss";
 import "slick-carousel/slick/slick.css";
@@ -10,10 +11,17 @@ import SliderContainer from "../../components/SliderContainer";
 import ModalExit from "../../components/ModalExit";
 import MODAL from "../../constants/Modal";
 
+import chatState from "@/recoil/atom/chat";
+import chatShareState from "@/recoil/atom/chatShare";
+
 interface JSONDATA {
-  id: string;
+  id: number;
   title: string;
-  content: string;
+  text: string;
+}
+interface CHATDATA {
+  id: number;
+  text: string;
 }
 interface SliderProps {
   arrows: boolean;
@@ -22,22 +30,49 @@ interface SliderProps {
   slidesToShow: number;
   slidesToScroll: number;
   speed: number;
+  draggable: boolean;
 }
 function chatShare() {
-  // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
-  const datas = require("../../data/Carousel.json");
   const [isActive, setActive] = useState<string>("0");
   const [normal, setNormal] = useState<boolean>(true);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const setChatShare = useSetRecoilState(chatShareState);
   const divRef = useRef(null);
   const router = useRouter();
+
+  // 첫번째 인사말을 제외한 대화내용
+  const CHAT = useRecoilValue(chatState).slice(1);
+  // 내가 한 대화
+  const CHAT_ME = CHAT.filter((chat: CHATDATA) => chat.id === 0);
+  // 답변
+  const CHATFluffy = CHAT.filter((chat: CHATDATA) => chat.id === 1);
+  const CHAT_SHARE: React.SetStateAction<JSONDATA[]> = [];
+  const [ALL_CHAT, setAllChat] = useState<JSONDATA[]>([
+    { id: 0, title: "", text: "" },
+  ]);
+  for (let i = 0; i < CHAT_ME.length; i++) {
+    CHAT_SHARE.push({
+      id: i,
+      title: CHAT_ME[i].text,
+      text: CHATFluffy[i].text,
+    });
+    console.log(CHAT_SHARE);
+  }
+  console.log(CHAT_ME);
+  console.log(CHATFluffy);
+  useEffect(() => {
+    setAllChat(CHAT_SHARE);
+  }, []);
+
+  console.log(CHAT_SHARE);
   const settings: SliderProps = {
-    arrows: false,
+    arrows: true,
     dots: true,
     isfinite: false,
     slidesToShow: 4,
     slidesToScroll: 4,
     speed: 500,
+    draggable: false,
   };
   // x 아이콘 클릭 시 모달 open
   const ExitClick = () => {
@@ -48,13 +83,19 @@ function chatShare() {
       setNormal(true);
     }
   };
+  // chatShare active 내용 저장(recoil)
+  const setRecoilState = () => {
+    setChatShare(ALL_CHAT[parseInt(isActive, 10)]);
+  };
   const onSlideClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target instanceof HTMLElement) {
       const t = e.target.id;
       setActive(t);
       setNormal(false);
+      setRecoilState();
     }
   };
+
   const homeClick = () => {
     router.push("/");
   };
@@ -98,22 +139,39 @@ function chatShare() {
         <div className={styles.header}>
           저장 버튼을 누른 대화 중 공유하고 싶은 답변을 선택해주세요.
         </div>
-        <div className={styles.chatSlider}>
-          <Slider {...settings}>
-            {datas.map((obj: JSONDATA) => (
+        {ALL_CHAT.length < 4 ? (
+          <div className={styles.chatSlider2}>
+            {ALL_CHAT.map((obj: JSONDATA) => (
               <SliderContainer
-                obj={obj.id}
+                obj={String(obj.id)}
                 key={obj.id}
                 className={styles.card}
                 title={obj.title}
-                content={obj.content}
+                content={obj.text}
                 onSlideClick={onSlideClick}
                 isActive={isActive}
                 normal={normal}
               />
             ))}
-          </Slider>
-        </div>
+          </div>
+        ) : (
+          <div className={styles.chatSlider}>
+            <Slider {...settings}>
+              {ALL_CHAT.map((obj: JSONDATA) => (
+                <SliderContainer
+                  obj={String(obj.id)}
+                  key={obj.id}
+                  className={styles.card}
+                  title={obj.title}
+                  content={obj.text}
+                  onSlideClick={onSlideClick}
+                  isActive={isActive}
+                  normal={normal}
+                />
+              ))}
+            </Slider>
+          </div>
+        )}
         <div>
           <button
             className={styles.sharebutton}

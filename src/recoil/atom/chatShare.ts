@@ -5,14 +5,14 @@ const sessionStorage =
   typeof window !== "undefined" ? window.sessionStorage : undefined;
 
 const { persistAtom } = recoilPersist({
-  key: "character",
+  key: "chatShare",
   storage: sessionStorage,
 });
 
-const characterState = atom({
-  key: "character",
-  default: { id: 0, name: "" },
+const chatShareState = atom({
+  key: "chatShare",
+  default: [],
   effects_UNSTABLE: [persistAtom],
 });
 
-export default characterState;
+export default chatShareState;

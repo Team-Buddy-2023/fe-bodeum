@@ -25,7 +25,7 @@ function SliderContainer({
     <div
       role="button"
       id={obj}
-      tabIndex={Number(obj)}
+      tabIndex={parseInt(obj, 10)}
       onClick={onSlideClick}
       onKeyDown={() => onSlideClick}
       className={
@@ -36,9 +36,9 @@ function SliderContainer({
           : `${className} ${styles.nonActive}`
       }
     >
-      <h3 id={obj}>{title}</h3>
+      <h3 id={String(obj)}>{title}</h3>
       <div
-        id={obj}
+        id={String(obj)}
         className={
           normal === true
             ? styles.sharetext
@@ -47,7 +47,7 @@ function SliderContainer({
             : styles.nonsharetext
         }
       >
-        <p id={obj}>{content}</p>
+        <p id={String(obj)}>{content}</p>
       </div>
     </div>
   );
