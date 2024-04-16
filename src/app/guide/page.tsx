@@ -8,7 +8,7 @@ import styles from "../../styles/chat.module.scss";
 
 function guide() {
   const CHARACTERSTATUS = useRecoilValue(characterSelector);
-
+  const [mobile, setMobile] = useState(false);
   const [number, setNumber] = useState<number>(0);
   const router = useRouter();
 
@@ -22,6 +22,11 @@ function guide() {
     }
   };
   useEffect(() => {
+    if (window.innerWidth < 1000) {
+      setMobile(true);
+    }
+  });
+  useEffect(() => {
     setImgNum(CHARACTERSTATUS.id);
     setCharName(CHARACTERSTATUS.name);
   }, [CHARACTERSTATUS]);
@@ -33,7 +38,11 @@ function guide() {
             {number === 0 ? (
               <>
                 <div className={styles.message}>
-                  <p>마음에 드는 답변을 저장할 수 있어요</p>
+                  <p>
+                    {mobile
+                      ? "캐릭터 이름을 확인할 수 있어요"
+                      : "마음에 드는 답변을 저장할 수 있어요"}
+                  </p>
                 </div>
                 <div className={styles.spring}>
                   <img src="/images/spring.svg" alt="spring" />
@@ -53,7 +62,11 @@ function guide() {
                   <img src="/images/spring2.svg" alt="spring2" />
                 </div>
                 <div className={styles.message2}>
-                  <p>이전 대화 내용을 볼 수 있어요</p>
+                  <p>
+                    {mobile
+                      ? "대화 내용을 확인할 수 있어요"
+                      : "이전 대화 내용을 볼 수 있어요"}
+                  </p>
                 </div>
               </>
             ) : null}
@@ -80,7 +93,11 @@ function guide() {
                   <img src="/images/spring3.svg" alt="spring3" />
                 </div>
                 <div className={styles.message3}>
-                  <p>위아래로 스크롤 해 내용을 볼 수 있어요</p>
+                  <p>
+                    {mobile
+                      ? "대화를 입력해보세요"
+                      : "위아래로 스크롤 해 내용을 볼 수 있어요"}
+                  </p>
                 </div>
               </>
             ) : null}
@@ -98,9 +115,9 @@ function guide() {
                 <img src="/images/scrap.svg" alt="scrap" />
               </div>
               <div className={styles.name}>
-                <p>토비</p>
+                <p>{charName}</p>
               </div>
-              <div className={styles.top}>
+              <div className={styles.top2}>
                 <img src="/images/arrow.svg" alt="arrow" />
                 <button type="button">펼치기</button>
               </div>

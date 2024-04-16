@@ -17,6 +17,7 @@ interface JSONDATA {
 }
 function chat() {
   const [text, setText] = useState<string>("");
+  const [mobile, setMobile] = useState(false);
   const [message, setMessages] = useState<JSONDATA[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -51,6 +52,11 @@ function chat() {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
+  useEffect(() => {
+    if (window.innerWidth < 1000) {
+      setMobile(true);
+    }
+  });
   useEffect(() => {
     // recoil값을 그대로 쓰면, 해당 값이 서버와 클라이언트가 다르다는 오류가 발생한다.
     // 따라서 useState, useEffect로 핸들링 해준다.
@@ -181,17 +187,45 @@ function chat() {
                   <img src="/images/arrow.svg" alt="arrow" />
                   <p>펼치기</p>
                 </div>
-                <div className={styles.text}>
-                  {isLoading || isFetching ? (
-                    <Dots />
+                {
+                  // 모바일 반응형 화면일 때, 일반 펼쳐진 화면과 디자인이 같음
+                  // 그리고 loading,fetching중 일때 애니메이션 보여주기
+                  mobile ? (
+                    <div className={styles.msgBox}>
+                      {message?.map((msg: JSONDATA, idx: number) => (
+                        <div key={idx}>
+                          {msg.id === 1 ? (
+                            <div className={styles.msgType0}>
+                              <span>{msg.text}</span>
+                            </div>
+                          ) : (
+                            <div className={styles.msgType1}>
+                              <span>{msg.text}</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {isLoading || isFetching ? (
+                        <div className={styles.msgType2}>
+                          <Dots />
+                        </div>
+                      ) : null}
+                    </div>
                   ) : (
-                    <p>
-                      {message.length === 0
-                        ? defaultMessage
-                        : message.findLast(element => element.id === 1)?.text}
-                    </p>
-                  )}
-                </div>
+                    <div className={styles.text}>
+                      {isLoading || isFetching ? (
+                        <Dots />
+                      ) : (
+                        <p>
+                          {message.length === 0
+                            ? defaultMessage
+                            : message.findLast(element => element.id === 1)
+                                ?.text}
+                        </p>
+                      )}
+                    </div>
+                  )
+                }
                 <div className={styles.input}>
                   <input
                     type="text"
@@ -200,7 +234,6 @@ function chat() {
                     onKeyUp={activeEnter}
                     placeholder="내용을 입력해주세요"
                   />
-                  {/* <input name="text" value={text} onChange={onInputChange} /> */}
                   <div
                     role="none"
                     onClick={() => {
