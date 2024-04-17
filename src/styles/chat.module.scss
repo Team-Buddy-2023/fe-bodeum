@@ -290,9 +290,6 @@ $green1: #e7ffaa;
       cursor: pointer;
     }
   }
-  .text {
-    background: rgba(255, 255, 255, 0.1);
-  }
 }
 .text {
   font-size: 20px;
@@ -487,9 +484,13 @@ $green1: #e7ffaa;
 }
 
 @media (max-width: 1000px) {
+  .main {
+    background-color: var(--primary-color);
+  }
   .background {
-    background-image: none;
-    background-color: $green1;
+    background-image: url("/images/main_bg.png");
+    background-size: contain;
+    background-repeat: no-repeat;
   }
   .backdrop {
     display: block;
@@ -578,9 +579,10 @@ $green1: #e7ffaa;
     }
     .text,
     .text2 {
-      padding: 10px;
-      border-radius: 15px;
-      font-size: 13px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 10px 25px 10px 25px;
+      font-size: 10px;
       position: absolute;
       left: 5%;
     }
@@ -608,5 +610,22 @@ $green1: #e7ffaa;
   .droplet {
     width: 10px;
     height: 10px;
+  }
+  .sliderbackdrop {
+    .chatSlider2 {
+      display: flex;
+      justify-content: flex-start;
+      overflow-x: auto;
+      padding: 20px;
+      width: 100%;
+
+      & > div:nth-child(even) {
+        transform: none;
+      }
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 }
