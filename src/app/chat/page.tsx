@@ -24,6 +24,12 @@ function chat() {
   const [imgNum, setImgNum] = useState(9);
   const [charName, setCharName] = useState("");
 
+  const isClient = typeof window === "object";
+  const getSize = () => {
+    return { width: isClient ? window.innerWidth : undefined };
+  };
+  const [windowSize, setWindowSize] = useState(getSize);
+
   // 선택한 캐릭터의 정보(id)
   const CHARACTERSTATUS = useRecoilValue(characterSelector);
   const CHAT = useRecoilValue(chatSelector);
@@ -52,10 +58,17 @@ function chat() {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
+  const handelResize = () => {
+    setWindowSize(getSize());
+  };
   useEffect(() => {
-    if (window.innerWidth < 1000) {
+    if (windowSize.width !== undefined && windowSize.width < 1000) {
       setMobile(true);
+    } else {
+      setMobile(false);
     }
+    window.addEventListener("resize", handelResize);
+    return () => window.removeEventListener("resize", handelResize);
   });
   useEffect(() => {
     // recoil값을 그대로 쓰면, 해당 값이 서버와 클라이언트가 다르다는 오류가 발생한다.
@@ -96,7 +109,7 @@ function chat() {
   };
   if (isLoading) console.log("로딩중");
   return (
-    <div>
+    <div className={styles.main}>
       <div className={styles.finish} role="none" onClick={ExitClick}>
         <img src="/images/x.svg" alt="x" />
       </div>

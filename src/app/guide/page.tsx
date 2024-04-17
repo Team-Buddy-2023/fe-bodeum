@@ -14,6 +14,13 @@ function guide() {
 
   const [imgNum, setImgNum] = useState(9);
   const [charName, setCharName] = useState("");
+
+  const isClient = typeof window === "object";
+  const getSize = () => {
+    return { width: isClient ? window.innerWidth : undefined };
+  };
+  const [windowSize, setWindowSize] = useState(getSize);
+
   const handleCount = () => {
     if (number !== 2) {
       setNumber(number + 1);
@@ -21,17 +28,28 @@ function guide() {
       router.push("/chat");
     }
   };
+  const handelResize = () => {
+    setWindowSize(getSize());
+  };
+
+  // innerWidth 감지
   useEffect(() => {
-    if (window.innerWidth < 1000) {
+    // windowSize.width가 undefined일수도 있기 때문에 조건문에 추가
+    if (windowSize.width !== undefined && windowSize.width < 1000) {
       setMobile(true);
+    } else {
+      setMobile(false);
     }
+    window.addEventListener("resize", handelResize);
+    return () => window.removeEventListener("resize", handelResize);
   });
+  // 캐릭터 id, 이름 변경
   useEffect(() => {
     setImgNum(CHARACTERSTATUS.id);
     setCharName(CHARACTERSTATUS.name);
   }, [CHARACTERSTATUS]);
   return (
-    <div role="none" onClick={handleCount}>
+    <div role="none" onClick={handleCount} className={styles.main}>
       <div className={styles.black}>
         <div className={styles.container}>
           <div className={styles.box}>
@@ -127,6 +145,7 @@ function guide() {
                   왔니?
                 </p>
               </div>
+
               <div className={styles.input}>
                 <input type="text" placeholder="내용을 입력해주세요" />
                 {/* <input name="text" value={text} onChange={onInputChange} /> */}
