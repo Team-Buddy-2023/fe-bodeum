@@ -96,23 +96,25 @@ function chatShare() {
   const onSideClick = (e: MouseEvent<HTMLDivElement>) => {
     if (divRef.current === e.target) {
       setNormal(true);
+      setChatShare([]);
     }
   };
   // chatShare active 내용 저장(recoil)
-  const setRecoilState = () => {
-    setChatShare(ALL_CHAT[parseInt(isActive, 10)]);
-  };
   const onSlideClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target instanceof HTMLElement) {
       const t = e.target.id;
       setActive(t);
       setNormal(false);
-      setRecoilState();
+      setChatShare(ALL_CHAT[parseInt(t, 10)]);
     }
   };
 
   const homeClick = () => {
+    console.log("dd");
     router.push("/");
+  };
+  const communityClick = () => {
+    router.push("/community");
   };
 
   // 특정글을 선택하면 active처리, 그 외에 것들은 nonActive(검은색 화면)
@@ -153,10 +155,13 @@ function chatShare() {
           />
           <div className={styles.title}>BODEUM</div>
           <div className={styles.header}>
-            저장 버튼을 누른 대화 중 공유하고 싶은 답변을 선택해주세요.
+            저장 버튼을 누른 대화 중 <br /> 공유하고 싶은 답변을 선택해주세요.
           </div>
           {ALL_CHAT.length < 4 || mobile ? (
-            <div className={styles.chatSlider2}>
+            <div
+              className={styles.chatSlider2}
+              style={{ zIndex: modalOpen ? "1" : "999" }}
+            >
               {ALL_CHAT.map((obj: JSONDATA) => (
                 <SliderContainer
                   obj={String(obj.id)}
@@ -188,21 +193,23 @@ function chatShare() {
               </Slider>
             </div>
           )}
-          <div>
-            <button
+          <div className={styles.buttonBox}>
+            <div
               className={styles.sharebutton}
-              type="button"
+              role="none"
               onClick={homeClick}
+              style={{ zIndex: modalOpen ? "1" : "999" }}
             >
-              홈
-            </button>
-            <button
+              <p>홈</p>
+            </div>
+            <div
               className={styles.sharebutton}
-              type="button"
-              onClick={homeClick}
+              role="none"
+              onClick={communityClick}
+              style={{ zIndex: modalOpen ? "1" : "999" }}
             >
               커뮤니티
-            </button>
+            </div>
           </div>
         </div>
       </div>

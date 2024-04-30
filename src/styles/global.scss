@@ -1,16 +1,27 @@
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
+@font-face {
+  font-family: "IM_Hyemin-Regular";
+  src: url("../../public/fonts/IM_Hyemin-Regular.ttf");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "IM_Hyemin-Bold";
+  src: url("../../public/fonts/IM_Hyemin-Bold.ttf");
+  font-weight: 600;
+}
+
 * {
   margin: 0;
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "IM_Hyemin-Regular";
   box-sizing: border-box;
   --max-width: 1100px;
   --primary-color: #ffedad;
 }
 
 body {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: "IM_Hyemin-Regular";
 }
 
 h1 {
