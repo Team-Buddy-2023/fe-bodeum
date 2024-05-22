@@ -1,4 +1,4 @@
 export interface UpdateUserData {
-  nickname: string;
+  text: string;
   favoriteFluffyName: string;
 }
