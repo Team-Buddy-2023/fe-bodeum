@@ -13,6 +13,7 @@ import MODAL from "../../constants/Modal";
 
 import chatState from "@/recoil/atom/chat";
 import chatShareState from "@/recoil/atom/chatShare";
+import Header from "@/components/header";
 
 interface JSONDATA {
   id: number;
@@ -126,10 +127,6 @@ function chatShare() {
     }
   };
 
-  const homeClick = () => {
-    console.log("dd");
-    router.push("/");
-  };
   const communityClick = () => {
     router.push("/community");
   };
@@ -140,17 +137,17 @@ function chatShare() {
     <div className={styles.main}>
       <div className={styles.background}>
         <div className={styles.sliderbackdrop}>
-          <div className={styles.finish} role="none" onClick={ExitClick}>
+          {/* <div className={styles.finish} role="none" onClick={ExitClick}>
             <img src="/images/x.svg" alt="x" />
-          </div>
+          </div> */}
           {modalOpen && (
             <div className={styles.modalBackground}>
               {normal ? (
                 <ModalExit
                   setModalOpen={setModalOpen}
-                  text={MODAL.SHARE_EXIT.TEXT}
-                  button1={MODAL.SHARE_EXIT.BUTTON1}
-                  button2={MODAL.SHARE_EXIT.BUTTON2}
+                  text={MODAL.NOSELECTSHARE.TEXT}
+                  button1={MODAL.NOSELECTSHARE.BUTTON1}
+                  button2={MODAL.NOSELECTSHARE.BUTTON2}
                 />
               ) : (
                 <ModalExit
@@ -170,7 +167,8 @@ function chatShare() {
             onClick={onSideClick}
             onKeyDown={() => onSideClick}
           />
-          <div className={styles.title}>BODEUM</div>
+          <Header community={false} />
+          {/* <div className={styles.title}>BODEUM</div> */}
           <div className={styles.header}>
             저장 버튼을 누른 대화 중 <br /> 공유하고 싶은 답변을 선택해주세요.
           </div>
@@ -214,18 +212,18 @@ function chatShare() {
             <div
               className={styles.sharebutton}
               role="none"
-              onClick={homeClick}
+              onClick={communityClick}
               style={{ zIndex: modalOpen ? "1" : "999" }}
             >
-              <p>홈</p>
+              <p>커뮤니티</p>
             </div>
             <div
               className={styles.sharebutton}
               role="none"
-              onClick={communityClick}
+              onClick={ExitClick}
               style={{ zIndex: modalOpen ? "1" : "999" }}
             >
-              커뮤니티
+              공유하기
             </div>
           </div>
         </div>
