@@ -67,6 +67,23 @@ function chatShare() {
   const handelResize = () => {
     setWindowSize(getSize());
   };
+  // 뒤로가기 버튼 클릭 시, 모달 오픈
+  const handlePopState = () => {
+    setModalOpen(true);
+  };
+  useEffect(() => {
+    // history에 stack을 하나 쌓는다.
+    // 그 뒤, 뒤로 가기 이벤트가 실행되면서 원하는 이벤트가 실행된다.
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", () => {
+      handlePopState();
+    });
+    return () => {
+      window.removeEventListener("popstate", () => {
+        handlePopState();
+      });
+    };
+  });
   useEffect(() => {
     if (windowSize.width !== undefined && windowSize.width < 1000) {
       setMobile(true);

@@ -10,6 +10,7 @@ import useChat from "@/hooks/useChat";
 import chatState from "@/recoil/atom/chat";
 import chatSelector from "@/recoil/selector/chatSelector";
 import Dots from "@/components/Dots";
+import { useDeleteChat } from "@/hooks/useDeleteStorage";
 
 interface JSONDATA {
   id: number;
@@ -23,7 +24,6 @@ function chat() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [imgNum, setImgNum] = useState(9);
   const [charName, setCharName] = useState("");
-
   const isClient = typeof window === "object";
   const getSize = () => {
     return { width: isClient ? window.innerWidth : undefined };
@@ -61,6 +61,26 @@ function chat() {
   const handelResize = () => {
     setWindowSize(getSize());
   };
+  // 뒤로가기 버튼 클릭 시, 모달 오픈
+  const handlePopState = () => {
+    setModalOpen(true);
+  };
+  useEffect(() => {
+    useDeleteChat();
+  }, []);
+  useEffect(() => {
+    // history에 stack을 하나 쌓는다.
+    // 그 뒤, 뒤로 가기 이벤트가 실행되면서 원하는 이벤트가 실행된다.
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", () => {
+      handlePopState();
+    });
+    return () => {
+      window.removeEventListener("popstate", () => {
+        handlePopState();
+      });
+    };
+  });
   useEffect(() => {
     if (windowSize.width !== undefined && windowSize.width < 1000) {
       setMobile(true);
@@ -85,18 +105,19 @@ function chat() {
         ]);
       }
     }
+
     // Chat gpt 답변이 있으면
     if (data !== undefined) {
       console.log(data);
       setChat([...CHAT, { id: 1, text: data.data?.answer }]);
     }
+
     // 첫 화면에서 charName을 가져오고 -> recoil에 defaultMessage 저장
     // 해당 메세지를 띄우고, 답변을 받으면 다시 업데이트
   }, [data, CHARACTERSTATUS]);
   useEffect(() => {
     setMessages(CHAT);
   }, [CHAT]);
-
   const sendMsg = () => {
     setChat([...CHAT, { id: 0, text }]);
     setText("");
