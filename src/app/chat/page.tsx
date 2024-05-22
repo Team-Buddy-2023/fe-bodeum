@@ -136,12 +136,21 @@ function chat() {
       </div>
       {modalOpen && (
         <div className={styles.modalBackground}>
-          <ModalExit
-            setModalOpen={setModalOpen}
-            text={MODAL.CHAT_EXIT.TEXT}
-            button1={MODAL.CHAT_EXIT.BUTTON1}
-            button2={MODAL.CHAT_EXIT.BUTTON2}
-          />
+          {CHAT.length === 1 ? (
+            <ModalExit
+              setModalOpen={setModalOpen}
+              text={MODAL.NOCHAT.TEXT}
+              button1={MODAL.NOCHAT.BUTTON1}
+              button2={MODAL.NOCHAT.BUTTON2}
+            />
+          ) : (
+            <ModalExit
+              setModalOpen={setModalOpen}
+              text={MODAL.CHAT_EXIT.TEXT}
+              button1={MODAL.CHAT_EXIT.BUTTON1}
+              button2={MODAL.CHAT_EXIT.BUTTON2}
+            />
+          )}
         </div>
       )}
       <div className={styles.background}>
