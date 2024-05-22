@@ -11,6 +11,8 @@ import { GetCommunity } from "@/types/community";
 import Skeleton from "../../components/skeleton";
 import LinkComponents from "@/components/Link";
 import { CharacterData } from "@/types/characters";
+import Header from "@/components/header";
+import { useDeleteAll } from "@/hooks/useDeleteStorage";
 
 // 캐릭터 임시 데이터
 // 이미지 경로만 하드코딩 이용
@@ -85,12 +87,10 @@ function MyPage() {
       countFluffy();
     }
   }, [BOARD]);
-
-  const prevButton = () => {
-    router.push("/");
-  };
-  const homeButton = () => {
-    router.push("/");
+  // 모든 스토리지 정보 삭제
+  const Logout = () => {
+    useDeleteAll();
+    window.location.replace("/");
   };
   const editButton = () => {
     router.push("/edit");
@@ -114,17 +114,14 @@ function MyPage() {
   return (
     <div className={styles.background}>
       <div className={styles.container}>
-        <div className={styles.header}>
+        <Header community={false} />
+        <div className={styles.logout} onClick={Logout} role="none">
           <img
-            src="/images/blackPrev.svg"
-            alt="prev"
-            onClick={prevButton}
-            role="none"
+            className={styles.logoutImage}
+            src="/images/logout.svg"
+            alt="logout"
           />
-          <h1>Bodeum 게시판</h1>
-          <div className={styles.homeIcon} onClick={homeButton} role="none">
-            <img src="/images/bodeumIcon.svg" alt="bodeumIcon" />
-          </div>
+          <p>로그아웃</p>
         </div>
         <div className={styles.user}>
           <div className={styles.imgBox} onClick={editButton} role="none">
