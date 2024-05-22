@@ -13,6 +13,7 @@ import Footer from "../components/main/Footer";
 import useGetCharacter from "@/hooks/useGetCharacter";
 import charactersSelector from "@/recoil/selector/charactersSelector";
 import characterState from "@/recoil/atom/characterAtom";
+import { useDeleteChat, useDeleteChatShare } from "@/hooks/useDeleteStorage";
 
 // 캐릭터 임시 데이터
 // 이미지 경로만 하드코딩 이용
@@ -57,7 +58,10 @@ export default function MainPage() {
     if (LOGINSTATUS) setLogin(true);
     else setLogin(false);
   }, [LOGINSTATUS, CHARACTERSSTATUS]);
-
+  useEffect(() => {
+    useDeleteChat();
+    useDeleteChatShare();
+  }, []);
   const LoginKakaoFn = () => {
     window.location.href =
       "https://kauth.kakao.com/oauth/authorize?client_id=e1ca1242637d6f7e5d769861cbf80017&redirect_uri=http://localhost:3000/success&response_type=code";
