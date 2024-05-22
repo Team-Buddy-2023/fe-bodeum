@@ -7,3 +7,11 @@ export interface GetCommunity {
   nickname: string;
   userId: number;
 }
+
+export interface BoardPropsData {
+  nickname: string;
+  date: string;
+  comment: string;
+  answer: string;
+  fluffy: number;
+}
