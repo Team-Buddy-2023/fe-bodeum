@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import Skeleton from "../../components/skeleton";
 import styles from "../../styles/community.module.scss";
@@ -12,6 +12,10 @@ import useGetTime from "@/hooks/useGetTime";
 import useDiff from "@/hooks/useDiff";
 import LinkComponents from "@/components/Link";
 import chatState from "@/recoil/atom/chat";
+import BoardDetail from "@/components/board";
+import boardDetailState from "@/recoil/atom/boardDetailAtom";
+import Header from "@/components/header";
+import Toast from "@/components/toast";
 
 function community() {
   const { isLoading, data } = useCommunity();
@@ -21,9 +25,32 @@ function community() {
   const [board, setBoard] = useState([]);
   const [time, setTime] = useState<string>();
   const [open, setOpen] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [toast, setToast] = useState<boolean>(false);
   const CHAT = useRecoilValue(chatState);
+  const setBoardDetail = useSetRecoilState(boardDetailState);
   console.log(CHAT);
   const router = useRouter();
+  const [mobile, setMobile] = useState(false);
+  const isClient = typeof window === "object";
+  const getSize = () => {
+    return { width: isClient ? window.innerWidth : undefined };
+  };
+  const [windowSize, setWindowSize] = useState(getSize);
+  const handelResize = () => {
+    setWindowSize(getSize());
+  };
+  // innerWidth 감지
+  useEffect(() => {
+    // windowSize.width가 undefined일수도 있기 때문에 조건문에 추가
+    if (windowSize.width !== undefined && windowSize.width < 1000) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+    window.addEventListener("resize", handelResize);
+    return () => window.removeEventListener("resize", handelResize);
+  });
   useEffect(() => {
     setTime(useGetTime());
   });
@@ -33,35 +60,32 @@ function community() {
       console.log(BOARD);
     }
   }, [BOARD]); // 의존성 배열에 BOARD.data 추가
-
+  const handleToast = () => {
+    setToast(true);
+    setTimeout(() => {
+      setToast(false);
+    }, 1000);
+  };
   const handleOpen = (chatId: string) => {
     setOpen(open === chatId ? null : chatId);
   };
-  const prevButton = () => {
-    if (CHAT.length > 1) router.push("/chatShare");
-    else router.push("/");
+  const openPopup = (id: number) => {
+    setModalOpen(true);
+    setBoardDetail(id);
   };
-  const homeButton = () => {
-    router.push("/");
+  const closePopup = () => {
+    setModalOpen(false);
+    setBoardDetail("");
   };
   return (
     <div className={styles.background}>
+      {toast && <Toast text="링크를 클립보드에 복사했습니다." />}
+      {modalOpen ? <BoardDetail closePopup={closePopup} /> : null}
       <div className={styles.container}>
-        <div className={styles.header}>
-          <img
-            src="/images/blackPrev.svg"
-            alt="prev"
-            onClick={prevButton}
-            role="none"
-          />
-          <h1>Bodeum 게시판</h1>
-          <div className={styles.homeIcon} onClick={homeButton} role="none">
-            <img src="/images/bodeumIcon.svg" alt="bodeumIcon" />
-          </div>
-        </div>
-        <div className={styles.search}>
+        {mobile ? <Header community={false} /> : <Header community />}
+        {/* <div className={styles.search}>
           <input placeholder="검색어를 입력하세요." />
-        </div>
+        </div> */}
         <div className={styles.board}>
           {isLoading ? (
             <>
@@ -80,6 +104,7 @@ function community() {
                 .map((val: GetCommunity) => {
                   return (
                     <div
+                      role="none"
                       key={val.chatId}
                       className={styles.box}
                       id={`board_${val.chatId}`}
@@ -114,7 +139,11 @@ function community() {
                       </div>
 
                       <div className={styles.commentBox}>{val.comment}</div>
-                      <div className={styles.answerBox}>
+                      <div
+                        className={styles.answerBox}
+                        onClick={() => openPopup(val.chatId)}
+                        role="none"
+                      >
                         <p>{val.answer}</p>
                       </div>
                       {open === String(val.chatId) && (
@@ -122,6 +151,7 @@ function community() {
                           handleOpen={handleOpen}
                           chatId={val.chatId}
                           userId={val.userId}
+                          handleToast={handleToast}
                         />
                       )}
                     </div>
