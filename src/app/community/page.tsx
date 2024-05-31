@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { useRouter } from "next/navigation";
 import Skeleton from "../../components/skeleton";
 import styles from "../../styles/community.module.scss";
 import useCommunity from "@/hooks/useCommunity";
@@ -11,11 +10,12 @@ import communitySelector from "@/recoil/selector/communitySelector";
 import useGetTime from "@/hooks/useGetTime";
 import useDiff from "@/hooks/useDiff";
 import LinkComponents from "@/components/Link";
-import chatState from "@/recoil/atom/chat";
 import BoardDetail from "@/components/board";
 import boardDetailState from "@/recoil/atom/boardDetailAtom";
 import Header from "@/components/header";
 import Toast from "@/components/toast";
+import boardDetailSelector from "@/recoil/selector/boardDetailSelector";
+import { useGetViews, usePostViews } from "@/hooks/useViews";
 
 function community() {
   const { isLoading, data } = useCommunity();
@@ -27,10 +27,17 @@ function community() {
   const [open, setOpen] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [toast, setToast] = useState<boolean>(false);
-  const CHAT = useRecoilValue(chatState);
+
   const setBoardDetail = useSetRecoilState(boardDetailState);
-  console.log(CHAT);
-  const router = useRouter();
+
+  const boardID = useRecoilValue(boardDetailSelector);
+  const [boardId, setId] = useState(boardID);
+  const [views, setViews] = useState(0);
+  // 조회수 조회
+  const { GetView, GetRefetch } = useGetViews(boardId);
+  console.log(views, GetView);
+  // 조회수 증가
+  const { PostRefetch } = usePostViews(boardId);
   const [mobile, setMobile] = useState(false);
   const isClient = typeof window === "object";
   const getSize = () => {
@@ -51,6 +58,7 @@ function community() {
     window.addEventListener("resize", handelResize);
     return () => window.removeEventListener("resize", handelResize);
   });
+
   useEffect(() => {
     setTime(useGetTime());
   });
@@ -60,6 +68,17 @@ function community() {
       console.log(BOARD);
     }
   }, [BOARD]); // 의존성 배열에 BOARD.data 추가
+  useEffect(() => {
+    if (boardID) {
+      setId(boardID);
+    }
+  }, [boardID]);
+  useEffect(() => {
+    if (GetView) {
+      console.log(GetView.data.views);
+      setViews(GetView.data.views);
+    }
+  }, [GetView]);
   const handleToast = () => {
     setToast(true);
     setTimeout(() => {
@@ -72,6 +91,8 @@ function community() {
   const openPopup = (id: number) => {
     setModalOpen(true);
     setBoardDetail(id);
+    GetRefetch();
+    PostRefetch();
   };
   const closePopup = () => {
     setModalOpen(false);
@@ -80,7 +101,9 @@ function community() {
   return (
     <div className={styles.background}>
       {toast && <Toast text="링크를 클립보드에 복사했습니다." />}
-      {modalOpen ? <BoardDetail closePopup={closePopup} /> : null}
+      {modalOpen ? (
+        <BoardDetail params={boardID} views={views} closePopup={closePopup} />
+      ) : null}
       <div className={styles.container}>
         {mobile ? <Header community={false} /> : <Header community />}
         {/* <div className={styles.search}>

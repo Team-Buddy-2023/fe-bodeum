@@ -48,6 +48,11 @@ const apis = {
   // nickName: 유저 닉네임, favoriteFluffyName: 선호하는 캐릭터
   update: (id: number, userData: UpdateUserData) =>
     api.put(`/update/${id}`, userData),
+
+  // 조회수 증가
+  postViews: (id: number) => api.post(`/chat/views/${id}`),
+  // 조회수 조회
+  getViews: (id: number) => api.get(`/chat/views/${id}`),
 };
 
 export default apis;
