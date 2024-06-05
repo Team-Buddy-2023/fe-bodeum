@@ -80,7 +80,7 @@ function Resign() {
           <div className={styles.modalBackground}>
             <ModalExit
               setModalOpen={setModalOpen}
-              text="안내사항 체크를 해주세요."
+              text={["안내사항 체크를 해주세요."]}
               button1="돌아가기"
               button2=""
             />

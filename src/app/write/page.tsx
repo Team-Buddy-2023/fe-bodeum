@@ -121,14 +121,14 @@ function write() {
             {text === "" ? (
               <ModalExit
                 setModalOpen={setModalOpen}
-                text="작성한 내용이 없습니다."
+                text={["작성한 내용이 없습니다."]}
                 button1="돌아가기"
                 button2="뒤로가기"
               />
             ) : (
               <ModalExit
                 setModalOpen={setModalOpen}
-                text="페이지를 이동하면 작성하던 내용이 사라집니다."
+                text={["페이지를 이동하면 작성하던 내용이 사라집니다."]}
                 button1="돌아가기"
                 button2="뒤로가기"
               />
