@@ -27,7 +27,7 @@ function community() {
   const [open, setOpen] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [toast, setToast] = useState<boolean>(false);
-
+  const [imageURL, setImageURL] = useState("");
   const setBoardDetail = useSetRecoilState(boardDetailState);
 
   const boardID = useRecoilValue(boardDetailSelector);
@@ -71,6 +71,12 @@ function community() {
   useEffect(() => {
     if (boardID) {
       setId(boardID);
+      const image = BOARD.filter(
+        (val: GetCommunity) => val.chatId === parseInt(boardID, 10),
+      );
+      console.log("Board", BOARD, boardID);
+      console.log("image", image);
+      setImageURL(image[0].imageURL);
     }
   }, [boardID]);
   useEffect(() => {
@@ -79,6 +85,7 @@ function community() {
       setViews(GetView.data.views);
     }
   }, [GetView]);
+
   const handleToast = () => {
     setToast(true);
     setTimeout(() => {
@@ -89,23 +96,38 @@ function community() {
     setOpen(open === chatId ? null : chatId);
   };
   const openPopup = (id: number) => {
+    console.log("id", id);
     setModalOpen(true);
+    setId(id);
     setBoardDetail(id);
-    GetRefetch();
     PostRefetch();
+    GetRefetch();
   };
   const closePopup = () => {
     setModalOpen(false);
     setBoardDetail("");
   };
+  useEffect(() => {
+    GetRefetch();
+  }, [boardId]);
   return (
     <div className={styles.background}>
       {toast && <Toast text="링크를 클립보드에 복사했습니다." />}
-      {modalOpen ? (
-        <BoardDetail params={boardID} views={views} closePopup={closePopup} />
+      {modalOpen && GetView ? (
+        <BoardDetail
+          params={boardID}
+          imageURL={imageURL}
+          views={views}
+          closePopup={closePopup}
+          dots
+        />
       ) : null}
       <div className={styles.container}>
-        {mobile ? <Header community={false} /> : <Header community />}
+        {mobile ? (
+          <Header community modal={false} />
+        ) : (
+          <Header community modal={false} />
+        )}
         {/* <div className={styles.search}>
           <input placeholder="검색어를 입력하세요." />
         </div> */}
@@ -133,7 +155,11 @@ function community() {
                       id={`board_${val.chatId}`}
                     >
                       <div className={styles.top}>
-                        <img src="/images/userIcon.svg" alt="userIcon" />
+                        <img
+                          src={val.imageURL || "/images/userIcon.svg"}
+                          className={styles.boardImage}
+                          alt="userIcon"
+                        />
                         <div className={styles.topRight}>
                           <div className={styles.nickName}>{val.nickname}</div>
                           <div className={styles.date}>
