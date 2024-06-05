@@ -13,7 +13,7 @@ interface Type {
 function Link({ handleOpen, chatId, userId, handleToast }: Type) {
   const id = useRecoilValue(userSelector).userId;
   const baseUrl = "http://localhost:3000";
-  const { isLoading, isFetching, refetch } = useDelete(chatId);
+  const { refetch } = useDelete(chatId);
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -24,7 +24,8 @@ function Link({ handleOpen, chatId, userId, handleToast }: Type) {
   };
   const deleteButton = () => {
     refetch();
-    window.location.replace("/community");
+    // window.location.replace("/community");
+    window.location.reload();
   };
   return (
     <div className={styles.box}>
