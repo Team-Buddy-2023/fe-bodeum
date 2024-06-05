@@ -10,7 +10,6 @@ import userTotalSelector from "@/recoil/selector/userTotalSelector";
 import Favorite from "@/components/Favorite";
 import useEdit from "@/hooks/useEdit";
 import Loading from "@/components/loading";
-import { useDeleteAll } from "@/hooks/useDeleteStorage";
 import Header from "@/components/header";
 import Toast from "@/components/toast";
 
@@ -23,26 +22,28 @@ function Edit() {
 
   const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState([]);
+  const [userImage, setUserImage] = useState("");
   const [favoriteFluffyName, setFluffy] = useState<string>("");
   const [editActive, setEditActive] = useState<boolean>(false);
   const [charNum, setCharNum] = useState<number>(-1);
   const [text, setText] = useState<string>("");
   const [fluffyName, setFluffyname] = useState("");
   const { isLoading, isFetching, data2, refetch } = useEdit(USER.userId, {
-    text,
-    favoriteFluffyName,
+    nickname: text,
+    favoriteFluffyName: fluffyName,
   });
 
   const router = useRouter();
 
   useEffect(() => {
     if (USER) {
-      setNickname(USER.nickName);
+      setUserImage(USER.imageURL);
     }
   }, [USER]);
   useEffect(() => {
     if (USERDATA) {
       setEmail(USERDATA.email);
+      setNickname(USERDATA.nickname);
       setFluffy(USERDATA.favoriteFluffyName);
     }
   }, [USERDATA]);
@@ -57,7 +58,9 @@ function Edit() {
       setFluffyname("블리");
     }
   }, [charNum]);
-
+  useEffect(() => {
+    refetch2();
+  }, []);
   useEffect(() => {
     if (data2 !== undefined) {
       setShowToast(true);
@@ -77,13 +80,9 @@ function Edit() {
       }, 1000);
       return () => clearTimeout(timeout);
     }
+    return () => {};
   }, [data2]);
 
-  // 모든 스토리지 정보 삭제
-  const Logout = () => {
-    useDeleteAll();
-    window.location.replace("/");
-  };
   // 글쓰기
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -95,7 +94,6 @@ function Edit() {
   // 수정한 내용 저장하기
   const saveButton = () => {
     refetch();
-    refetch2();
   };
   const selectChar = (num: number) => {
     setCharNum(num);
@@ -111,11 +109,11 @@ function Edit() {
     <div className={styles.background}>
       {showToast && <Toast text="회원정보가 수정되었습니다." />}
       <div className={styles.container}>
-        <Header community={false} />
+        <Header community={false} modal={false} />
         <div className={styles.content}>
           <div className={styles.user}>
             <div className={styles.imgBox} role="none">
-              <img className={styles.preView} src="" alt="img" />
+              <img className={styles.preView} src={userImage} alt="img" />
             </div>
             <p>{nickname}</p>
           </div>
@@ -123,7 +121,14 @@ function Edit() {
             <div>
               <span>이메일 </span>
               <span>*</span>
-              <div className={styles.whiteBox}>{email}</div>
+              <div className={styles.whiteBox}>
+                <img
+                  className={styles.kakao}
+                  src="/images/kakaocircle.svg"
+                  alt="kakao"
+                />
+                {email}
+              </div>
             </div>
             <div>
               <span>닉네임 </span>
