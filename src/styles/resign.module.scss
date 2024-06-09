@@ -12,7 +12,7 @@
   flex-direction: column;
   justify-content: center;
   width: 100vw;
-  margin-top: 200px;
+  margin-top: 130px;
   button {
     cursor: pointer;
   }
@@ -86,7 +86,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 80vw;
+  width: 90vw;
   height: 190px;
   background: #fff;
   border-radius: 20px;
@@ -99,7 +99,7 @@
   }
 }
 .second {
-  width: 80vw;
+  width: 90vw;
   height: 70px;
   background: #fff;
   border-radius: 20px;
@@ -111,17 +111,20 @@
     margin-right: 10px;
     cursor: pointer;
   }
-  span:nth-child(1) {
+  .colorRed {
     color: red;
   }
 }
 .third {
-  width: 80vw;
+  width: 90vw;
   height: 100px;
   background: #fff;
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .second input {
   width: 1px;
@@ -164,4 +167,13 @@
   line-height: 26px;
   letter-spacing: -1px;
   color: rgba(0, 0, 0, 0.5);
+}
+@media (max-width: 560px) {
+  .container {
+    margin-top: 150px;
+  }
+  .second,
+  .third {
+    font-size: 12px;
+  }
 }

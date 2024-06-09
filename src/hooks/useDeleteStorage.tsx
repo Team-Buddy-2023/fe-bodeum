@@ -1,11 +1,11 @@
 const useDeleteAll = () => {
-  window.localStorage.removeItem("recoil-persist");
+  window.sessionStorage.removeItem("userInfo");
   window.sessionStorage.removeItem("chat");
   window.sessionStorage.removeItem("chatShare");
   window.sessionStorage.removeItem("character");
 };
 const useDeleteUser = () => {
-  window.localStorage.removeItem("recoil-persist");
+  window.sessionStorage.removeItem("userInfo");
 };
 
 const useDeleteChat = () => {

@@ -27,10 +27,6 @@ function Resign() {
   const checked = () => {
     setCheck(!check);
   };
-  // x 아이콘 클릭 시 모달 open
-  const ExitClick = () => {
-    setModalOpen(!modalOpen);
-  };
   const editButton = () => {
     router.push("/edit");
   };
@@ -57,7 +53,7 @@ function Resign() {
       setTimeout(() => {
         setShowToast(false);
         useDeleteAll();
-        router.push("/");
+        window.location.replace("/");
       }, 3000);
     }
   }, [data]);
@@ -67,10 +63,11 @@ function Resign() {
       const timeout = setTimeout(() => {
         setShowToast(false);
         useDeleteAll();
-        router.push("/");
+        window.location.replace("/");
       }, 3000);
       return () => clearTimeout(timeout);
     }
+    return () => {};
   }, [data]);
   return (
     <div className={styles.background}>
@@ -86,7 +83,7 @@ function Resign() {
             />
           </div>
         )}
-        <Header community={false} />
+        <Header community={false} modal={false} />
         <div className={styles.contentBody}>
           <div className={styles.title}>
             <h1>회원탈퇴</h1>
@@ -126,7 +123,7 @@ function Resign() {
                 alt="checl"
               />
             )}
-            <span>(필수)</span>
+            <span className={styles.colorRed}>(필수)&nbsp;</span>
             <span>안내사항을 모두 확인하였으며, 이에 동의합니다.</span>
           </div>
           <div className={styles.third}>

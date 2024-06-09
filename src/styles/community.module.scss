@@ -78,6 +78,7 @@
   display: flex;
   margin-bottom: 10px;
   .topRight {
+    min-width: 107px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -89,6 +90,12 @@
     .date {
       font-size: 12px;
     }
+  }
+  .boardImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 4px 0px;
   }
   .dots {
     z-index: 10000;
@@ -127,9 +134,14 @@
     width: 100px;
     height: 100px;
     margin-bottom: 10px;
-    border-radius: 20px;
-    background-color: #dae4af;
-    img {
+    .userImage {
+      border-radius: 20px;
+      width: 100px;
+      height: 100px;
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    .gear {
       cursor: pointer;
       width: 25px;
       height: 25px;
@@ -213,6 +225,12 @@
         align-items: center;
         font-size: 14px;
         gap: 8px;
+        .boardImage {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          box-shadow: rgba(0, 0, 0, 0.06) 0px 0px 4px 0px;
+        }
       }
       .dots {
         position: absolute;
@@ -221,7 +239,8 @@
       }
     }
     .views {
-      font-size: 10px;
+      padding-left: 30px;
+      font-size: 12px;
       margin-bottom: 10px;
       padding-left: 5px;
     }
@@ -237,12 +256,11 @@
     .commentBox {
       width: 300px;
       margin-bottom: 50px;
-      padding-left: 30px;
+      padding-left: 4px;
     }
     .whiteBox {
       position: relative;
       display: flex;
-      justify-content: center;
       align-items: center;
       margin: 0 auto;
       width: 600px;

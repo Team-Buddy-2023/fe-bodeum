@@ -20,6 +20,7 @@ const communityState = atom({
       fluffyName: "",
       nickname: "",
       userId: 1,
+      imageURL: "",
     },
   ],
   effects_UNSTABLE: [persistAtom],

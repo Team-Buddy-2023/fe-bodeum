@@ -20,6 +20,7 @@ interface JSONDATA {
 }
 function write() {
   const CHATSHARE = useRecoilValue(chatShareSelector);
+  const [active, setActive] = useState(false);
   const [content, setContent] = useState<JSONDATA>();
   const [text, setText] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
@@ -74,7 +75,7 @@ function write() {
   }, [CHATSHARE]);
 
   useEffect(() => {
-    if (data !== undefined) {
+    if (data !== undefined && active) {
       console.log(data);
       setShowToast(true);
       setTimeout(() => {
@@ -86,7 +87,7 @@ function write() {
   }, [data]);
 
   useEffect(() => {
-    if (data !== undefined) {
+    if (data !== undefined && active) {
       console.log(data);
       setShowToast(true);
       const timeout = setTimeout(() => {
@@ -95,6 +96,7 @@ function write() {
       }, 1000);
       return () => clearTimeout(timeout);
     }
+    return () => {};
   }, [data]);
 
   const prevButton = () => {
@@ -104,6 +106,7 @@ function write() {
   const sendBoard = () => {
     if (text !== "") {
       setText("");
+      setActive(true);
       refetch();
     } else setModalOpen(true);
   };
@@ -135,7 +138,7 @@ function write() {
             )}
           </div>
         )}
-        <Header community={false} />
+        <Header community={false} modal={false} />
         <div className={styles.container}>
           <div className={styles.left}>
             <div className={styles.leftTop}>

@@ -55,7 +55,7 @@ function chat() {
     setOpen(!open);
   };
   // 채팅 글쓰기
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
   const handelResize = () => {
@@ -123,7 +123,7 @@ function chat() {
     setText("");
     refetch();
   };
-  const activeEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const activeEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && text !== "") {
       sendMsg();
     }
@@ -185,8 +185,7 @@ function chat() {
                 </div>
 
                 <div className={styles.input}>
-                  <input
-                    type="text"
+                  <textarea
                     value={text}
                     onChange={onChange}
                     onKeyUp={activeEnter}
@@ -257,7 +256,9 @@ function chat() {
                   ) : (
                     <div className={styles.text}>
                       {isLoading || isFetching ? (
-                        <Dots />
+                        <div className={styles.textDots}>
+                          <Dots />
+                        </div>
                       ) : (
                         <p>
                           {message.length === 0
@@ -270,8 +271,7 @@ function chat() {
                   )
                 }
                 <div className={styles.input}>
-                  <input
-                    type="text"
+                  <textarea
                     value={text}
                     onChange={onChange}
                     onKeyUp={activeEnter}

@@ -6,6 +6,7 @@ export interface GetCommunity {
   fluffyName: string;
   nickname: string;
   userId: number;
+  imageURL: string;
 }
 
 export interface BoardPropsData {

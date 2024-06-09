@@ -3,7 +3,8 @@ import { ChatShareData } from "@/types/chat";
 import { UpdateUserData } from "@/types/user";
 
 export const api = axios.create({
-  baseURL: "http://3.34.172.192:8080",
+  // baseURL: "http://3.34.172.192:8080",
+  baseURL: "https://serverbodeum.shop/",
   headers: {
     "Content-Type": "application/json;charset=UTF-8",
     Accept: "application/json,",

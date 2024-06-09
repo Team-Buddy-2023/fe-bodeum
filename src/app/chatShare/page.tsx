@@ -1,7 +1,6 @@
 "use client";
 
 import React, { MouseEvent, useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import Slider from "react-slick";
 import styles from "../../styles/chat.module.scss";
@@ -36,10 +35,11 @@ interface SliderProps {
 function chatShare() {
   const [isActive, setActive] = useState<string>("0");
   const [normal, setNormal] = useState<boolean>(true);
+  const [home, setHome] = useState<boolean>(false);
+  const [community, setCommunity] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const setChatShare = useSetRecoilState(chatShareState);
   const divRef = useRef(null);
-  const router = useRouter();
   const [mobile, setMobile] = useState(false);
   // 첫번째 인사말을 제외한 대화내용
   const CHAT = useRecoilValue(chatState).slice(1);
@@ -110,6 +110,8 @@ function chatShare() {
   // x 아이콘 클릭 시 모달 open
   const ExitClick = () => {
     setModalOpen(!modalOpen);
+    setCommunity(false);
+    setHome(false);
   };
   const onSideClick = (e: MouseEvent<HTMLDivElement>) => {
     if (divRef.current === e.target) {
@@ -128,7 +130,15 @@ function chatShare() {
   };
 
   const communityClick = () => {
-    router.push("/community");
+    setModalOpen(!modalOpen);
+    setHome(false);
+    setCommunity(true);
+    // router.push("/community");
+  };
+  const homeClick = () => {
+    setModalOpen(!modalOpen);
+    setCommunity(false);
+    setHome(true);
   };
 
   // 특정글을 선택하면 active처리, 그 외에 것들은 nonActive(검은색 화면)
@@ -142,7 +152,21 @@ function chatShare() {
           </div> */}
           {modalOpen && (
             <div className={styles.modalBackground}>
-              {normal ? (
+              {home ? (
+                <ModalExit
+                  setModalOpen={setModalOpen}
+                  text={MODAL.HOME.TEXT}
+                  button1={MODAL.HOME.BUTTON1}
+                  button2={MODAL.HOME.BUTTON2}
+                />
+              ) : community ? (
+                <ModalExit
+                  setModalOpen={setModalOpen}
+                  text={MODAL.COMMUNITY.TEXT}
+                  button1={MODAL.COMMUNITY.BUTTON1}
+                  button2={MODAL.COMMUNITY.BUTTON2}
+                />
+              ) : normal ? (
                 <ModalExit
                   setModalOpen={setModalOpen}
                   text={MODAL.NOSELECTSHARE.TEXT}
@@ -167,10 +191,14 @@ function chatShare() {
             onClick={onSideClick}
             onKeyDown={() => onSideClick}
           />
-          <Header community={false} />
+          <div role="none" onClick={homeClick}>
+            <Header community={false} modal />
+          </div>
+
           {/* <div className={styles.title}>BODEUM</div> */}
           <div className={styles.header}>
-            저장 버튼을 누른 대화 중 <br /> 공유하고 싶은 답변을 선택해주세요.
+            <p>저장 버튼을 누른 대화 중</p>
+            <p>공유하고 싶은 답변을 선택해주세요.</p>
           </div>
           {ALL_CHAT.length < 4 || mobile ? (
             <div

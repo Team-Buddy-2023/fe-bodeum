@@ -9,37 +9,71 @@ import styles from "../../styles/community.module.scss";
 import Header from "@/components/header";
 import BoardDetail from "@/components/board";
 import boardDetailState from "@/recoil/atom/boardDetailAtom";
+import Loading from "@/components/loading";
+import { useGetViews, usePostViews } from "@/hooks/useViews";
+import { GetCommunity } from "@/types/community";
 
 function communityShare() {
   const { isLoading, data } = useCommunity();
+  console.log("커뮤니티 데이터: ", data);
   const router = useRouter();
   const params = useSearchParams().get("id");
-  console.log(params);
-  const BOARD = useRecoilValue(communitySelector);
-  console.log(BOARD);
-  const [board, setBoard] = useState([]);
-  const setBoardDetail = useSetRecoilState(boardDetailState);
 
-  console.log(board);
+  const BOARD = useRecoilValue(communitySelector);
+  const setBoardDetail = useSetRecoilState(boardDetailState);
+  const BOARDID = useRecoilValue(boardDetailState);
+
+  const [views, setViews] = useState(0);
+  const [boardId, setId] = useState(params);
+  const [imageURL, setImageURL] = useState("");
+  const { GetView, GetRefetch } = useGetViews(BOARDID);
+  const { PostRefetch } = usePostViews(BOARDID);
+  const getViews = async () => {
+    await GetRefetch();
+  };
+  const postViews = async () => {
+    await PostRefetch();
+  };
   useEffect(() => {
-    setBoardDetail(22);
+    setBoardDetail(params);
+    setId(params);
   });
   useEffect(() => {
-    if (BOARD) {
-      const list = BOARD.find(val => val.chatId === parseInt(params));
-      console.log(list);
+    if (boardId) {
+      const image = BOARD.filter(
+        (val: GetCommunity) => val.chatId === parseInt(boardId, 10),
+      );
+      setImageURL(image[0].imageURL);
     }
-  }, [BOARD]);
+  }, [boardId]);
+  useEffect(() => {
+    getViews();
+    postViews();
+  }, []);
+  useEffect(() => {
+    if (GetView) {
+      console.log(GetView.data.views);
+      setViews(GetView.data.views);
+    }
+  }, [GetView]);
+
   const closePopup = () => {
     router.push("/community");
   };
+  if (isLoading) <Loading />;
   return (
     <div className={styles.background}>
       <div className={styles.container}>
-        <Header community />
-        {BOARD ? (
+        <Header community modal={false} />
+        {BOARD && params ? (
           <div className={styles.communityShareContainer}>
-            <BoardDetail closePopup={closePopup} />
+            <BoardDetail
+              views={views}
+              imageURL={imageURL}
+              closePopup={closePopup}
+              params={params}
+              dots={false}
+            />
           </div>
         ) : null}
       </div>

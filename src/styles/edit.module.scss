@@ -49,6 +49,7 @@
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+  padding-top: 100px;
   .imgBox {
     position: relative;
     width: 100px;
@@ -97,6 +98,17 @@
     input {
       font-size: 13px;
       width: 200px;
+    }
+    .kakao {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+  }
+  div:nth-child(1) {
+    .whiteBox {
+      background-color: #efeeee;
+      color: #6d6d6d;
     }
   }
   .charBox {
